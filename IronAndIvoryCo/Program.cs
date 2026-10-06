@@ -1,3 +1,4 @@
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 using IronAndIvoryCo.Data;
 using IronAndIvoryCo.Models;
 using IronAndIvoryCo.Models.Enums;
