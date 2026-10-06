@@ -38,6 +38,7 @@ using (var scope = app.Services.CreateScope())
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 
+        context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
 
         // 1. BRANCH
@@ -162,7 +163,7 @@ using (var scope = app.Services.CreateScope())
                     }
                 }
                 context.SaveChanges();
-                Console.WriteLine("SCHEDULES SEEDED Mon-Sat 08:00-17:00 (Sat 14:00)");
+                Console.WriteLine("SCHEDULES SEEDED");
             }
         }
 
