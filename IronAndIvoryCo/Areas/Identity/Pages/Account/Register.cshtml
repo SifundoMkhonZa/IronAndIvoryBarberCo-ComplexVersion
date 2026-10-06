@@ -1,0 +1,102 @@
+@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = null;
+}
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" />
+
+<style>
+    .auth-wrapper {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #0B0B0B;
+        background: radial-gradient(circle at 50% 0%, #1E2126 0%, #0B0B0B 70%);
+        padding: 20px;
+    }
+
+    .auth-card {
+        width: 100%;
+        max-width: 480px;
+        background: #1E2126;
+        border: 1px solid #2a2e36;
+        border-radius: 16px;
+        padding: 45px 38px;
+        color: white;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+
+    .auth-divider {
+        height: 3px;
+        width: 50px;
+        background: #FFC107;
+        margin: 15px auto 30px auto;
+        border-radius: 2px;
+    }
+
+    .auth-card .form-control {
+        background: #0B0B0B !important;
+        border: 1px solid #2a2e36 !important;
+        color: white !important;
+        padding: 13px 16px;
+        border-radius: 8px;
+    }
+
+        .auth-card .form-control:focus {
+            border-color: #FFC107 !important;
+            box-shadow: 0 0 0 0.2rem rgba(255,193,7,0.25) !important;
+        }
+
+    .btn-gold-auth {
+        background: #FFC107;
+        color: black;
+        font-weight: 800;
+        letter-spacing: 1px;
+        padding: 13px;
+        border-radius: 8px;
+        border: none;
+        width: 100%;
+        transition: 0.2s;
+    }
+
+        .btn-gold-auth:hover {
+            background: #FFB000;
+        }
+</style>
+
+<div class="auth-wrapper">
+    <div class="auth-card shadow-lg">
+        <h2 class="text-center fw-bold" style="letter-spacing:2px;">JOIN THE CUT</h2>
+        <p class="text-center small" style="color:#ADB5BD;">Create account as Customer</p>
+        <div class="auth-divider"></div>
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+            <label asp-for="Input.Email" class="small fw-bold mb-1" style="color:#ADB5BD;">EMAIL</label>
+            <input asp-for="Input.Email" class="form-control mb-2" placeholder="you@example.com" autocomplete="username" />
+            <span asp-validation-for="Input.Email" class="text-danger small d-block mb-3"></span>
+
+            <label asp-for="Input.Password" class="small fw-bold mb-1" style="color:#ADB5BD;">PASSWORD</label>
+            <input asp-for="Input.Password" class="form-control mb-2" type="password" placeholder="••••••••" autocomplete="new-password" />
+            <span asp-validation-for="Input.Password" class="text-danger small d-block mb-3"></span>
+
+            <label asp-for="Input.ConfirmPassword" class="small fw-bold mb-1" style="color:#ADB5BD;">CONFIRM PASSWORD</label>
+            <input asp-for="Input.ConfirmPassword" class="form-control mb-4" type="password" placeholder="••••••••" autocomplete="new-password" />
+            <span asp-validation-for="Input.ConfirmPassword" class="text-danger small d-block mb-3"></span>
+
+            <div class="mb-3 p-2 rounded" style="background:#0B0B0B; border:1px solid #2a2e36;">
+                <small style="color:#ADB5BD;">Role: </small><span class="badge" style="background:#FFC107; color:black;">Customer</span>
+            </div>
+
+            <button type="submit" class="btn-gold-auth mb-3">CREATE ACCOUNT</button>
+            <p class="text-center small"><a asp-page="./Login" style="color:#FFC107; text-decoration:none; font-weight:700;">Already have account? Log in</a></p>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

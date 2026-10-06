@@ -1,0 +1,23 @@
+@model IronAndIvoryCo.Models.Receptionist
+@{
+    ViewData["Title"] = "Edit Receptionist";
+}
+<div class="page-hero" style="background:#111;"><div class="container"><h1>EDIT @Model.Name.ToUpper()</h1><div class="gold-line"></div></div></div>
+<div class="container py-5">
+    <div class="row justify-content-center"><div class="col-lg-6">
+        <div class="form-card" style="background:white;border-radius:20px;padding:40px;box-shadow:0 20px 50px rgba(0,0,0,0.08);">
+            <form asp-action="Edit">
+                <input type="hidden" asp-for="Id" />
+                <div class="row g-3">
+                    <div class="col-md-6"><label class="fw-bold small">NAME</label><input asp-for="Name" class="form-control"/></div>
+                    <div class="col-md-6"><label class="fw-bold small">EMAIL</label><input asp-for="Email" class="form-control"/></div>
+                    <div class="col-md-6"><label class="fw-bold small">PHONE</label><input asp-for="Phone" class="form-control"/></div>
+                    <div class="col-md-3"><label class="fw-bold small">SHIFT</label><select asp-for="Shift" class="form-select"><option>Morning (08:00-14:00)</option><option>Afternoon (14:00-20:00)</option><option>Full Day</option></select></div>
+                    <div class="col-md-3"><label class="fw-bold small">DESK</label><input asp-for="DeskNumber" class="form-control"/></div>
+                    <div class="col-12"><label class="fw-bold small">BRANCH</label><select asp-for="BranchId" class="form-select" asp-items="ViewBag.BranchId"></select></div>
+                    <div class="col-12 mt-3 d-flex gap-2"><button class="btn btn-gold flex-grow-1 fw-bold py-3">SAVE</button><a asp-action="Index" class="btn btn-dark-custom px-4 py-3">Cancel</a></div>
+                </div>
+            </form>
+        </div>
+    </div></div>
+</div>

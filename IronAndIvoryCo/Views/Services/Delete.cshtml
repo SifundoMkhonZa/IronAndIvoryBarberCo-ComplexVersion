@@ -1,0 +1,54 @@
+@model IronAndIvoryCo.Models.Service
+@{
+    ViewData["Title"] = "Delete Service";
+}
+
+<div class="banner-black" style="padding: 40px 20px; background:#1a1a1a;">
+    <h1 style="color:#ff4d4d;">DELETE SERVICE</h1>
+    <p style="color:#FFC107;">This action cannot be undone</p>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card-form border-danger" style="border: 2px solid #ff4d4d !important;">
+
+                <div class="text-center mb-4">
+                    <div style="width:70px; height:70px; background:#ffebeb; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 15px;">
+                        <span style="font-size:35px;">⚠️</span>
+                    </div>
+                    <h3 class="fw-bold">Are you sure you want to delete this?</h3>
+                    <p class="text-muted">You are about to permanently delete this service from the system.</p>
+                </div>
+
+                <div class="d-flex gap-3 p-3 rounded mb-4" style="background:#fff; border:1px solid #eee;">
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" width="90" height="90" style="object-fit:cover; border-radius:10px;" />
+                    }
+                    <div>
+                        <small class="text-muted text-uppercase fw-bold" style="letter-spacing:1px;">@Model.ServiceCategory</small>
+                        <h5 class="fw-bold text-uppercase m-0">@Model.Name</h5>
+                        <p class="text-muted small m-0">@Model.Description</p>
+                        <div class="mt-1">
+                            <span class="price">R @Model.Price.ToString("F2")</span> • <span class="small fw-bold">@Model.DurationInMinutes min</span>
+                        </div>
+                        <small class="text-muted"><i class="bi bi-geo-alt"></i> @Model.Branch?.Address</small>
+                    </div>
+                </div>
+
+                <form asp-action="Delete" class="mt-4">
+                    <input type="hidden" asp-for="ServiceId" />
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-danger flex-grow-1 py-2 fw-bold" style="border-radius:8px;">Yes, Delete Permanently</button>
+                        <a asp-action="Index" class="btn-create-gold flex-grow-1 text-center py-2" style="background:#111; color:white;">Cancel</a>
+                    </div>
+                </form>
+
+                <div class="text-center mt-3">
+                    <a asp-action="Index" class="text-muted text-decoration-none small">← Back to Services</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

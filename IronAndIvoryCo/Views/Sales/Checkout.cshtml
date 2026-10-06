@@ -1,0 +1,97 @@
+﻿@model IronAndIvoryCo.Models.Sale
+@using IronAndIvoryCo.Models.Enums
+@{
+    ViewData["Title"] = "Payment";
+}
+
+<div class="container mt-4">
+    <div class="mb-4">
+        <h2 class="fw-bold text-uppercase" style="color:#111"><i class="bi bi-bag-check"></i> Checkout</h2>
+        <p class="text-muted">Order #@Model.SaleId — Review and pay</p>
+    </div>
+
+    <div class="row g-4">
+        <!-- Left: Order Summary -->
+        <div class="col-lg-7">
+            <div class="card shadow-sm" style="border-radius:12px; overflow:hidden;">
+                <div class="card-header d-flex justify-content-between align-items-center" style="background:#111; color:white;">
+                    <span class="fw-bold"><i class="bi bi-bag me-2" style="color:#FFC107"></i> Order Summary (@Model.ProductSales.Count items)</span>
+                    <span class="badge" style="background:#FFC107; color:black;">@Model.ProductSales.Sum(x=>x.Quantity) items</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table mb-0 align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-3">Product</th>
+                                <th class="text-center">Qty</th>
+                                <th class="text-end pe-3">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach(var item in Model.ProductSales){
+                            <tr>
+                                <td class="ps-3 py-3">
+                                    <div class="d-flex align-items-center">
+                                        @if(!string.IsNullOrEmpty(item.Product.ImageUrl)){
+                                            <img src="@item.Product.ImageUrl" style="width:50px;height:50px;object-fit:cover;border-radius:8px;" class="me-3 border" />
+                                        }
+                                        <div>
+                                            <div class="fw-bold" style="color:#111">@item.Product.ProductName</div>
+                                            <small class="text-muted">R @item.UnitPrice.ToString("N2")</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center"><span class="badge bg-light text-dark border px-3">@item.Quantity</span></td>
+                                <td class="text-end pe-3 fw-bold" style="color:#111">R @((item.Quantity*item.UnitPrice).ToString("N2"))</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <a asp-action="Cart" class="btn btn-outline-dark mt-3"><i class="bi bi-arrow-left"></i> Back to Cart</a>
+        </div>
+
+        <!-- Right: Payment -->
+        <div class="col-lg-5">
+            <div class="card shadow" style="border-radius:12px; overflow:hidden;">
+                <div class="card-header" style="background:#111; color:white;">
+                    <i class="bi bi-credit-card-2-front me-2" style="color:#FFC107"></i> Payment Details
+                </div>
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between mb-2 text-muted">
+                        <span>Subtotal</span>
+                        <span>R @Model.TotalAmount.ToString("N2")</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3 text-muted">
+                        <span>Shipping</span>
+                        <span class="text-success fw-bold">FREE</span>
+                    </div>
+                    <hr/>
+                    <div class="d-flex justify-content-between mb-4">
+                        <span class="fw-bold fs-5 text-uppercase" style="color:#111">Total</span>
+                        <span class="fw-bold fs-4" style="color:#111">R @Model.TotalAmount.ToString("N2")</span>
+                    </div>
+
+                    <form asp-action="CheckoutConfirmed" method="post">
+                        @Html.AntiForgeryToken()
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small text-uppercase" style="letter-spacing:0.5px;">Payment Method</label>
+                            <select name="paymentMethod" class="form-select form-select-lg" style="border:2px solid #111; border-radius:8px;" asp-items="Html.GetEnumSelectList<paymentMethod>()"></select>
+                            <small class="text-muted d-block mt-2"><i class="bi bi-shield-lock"></i> Secure payment by Iron & Ivory Co.</small>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-lg py-3 fw-bold w-100" style="background:#FFC107; color:black; border-radius:8px;">
+                                <i class="bi bi-lock-fill"></i> PAY NOW — R @Model.TotalAmount.ToString("N2")
+                            </button>
+                        </div>
+                        <p class="text-center mt-3 mb-0 text-muted" style="font-size:11px; letter-spacing:1px">
+                            <i class="bi bi-patch-check-fill"></i> 100% SECURE & ENCRYPTED
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

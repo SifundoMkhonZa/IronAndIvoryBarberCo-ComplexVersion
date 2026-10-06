@@ -1,0 +1,89 @@
+﻿@{
+    ViewData["Title"] = "Contact";
+}
+
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold text-uppercase" style="color:var(--dark); letter-spacing:1px;">Contact Iron & Ivory</h1>
+        <p class="text-muted">Have a question or ready for your next cut? Get in touch with us.</p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        <!-- Get In Touch -->
+        <div class="col-lg-5">
+            <div class="card shadow-sm h-100" style="border-radius:12px; border:1px solid #eee;">
+                <div class="card-body p-4">
+                    <h4 class="fw-bold mb-4" style="color:var(--dark);">Get In Touch</h4>
+                    
+                    <div class="d-flex mb-3">
+                        <div class="me-3 d-flex align-items-center justify-content-center" style="width:40px; height:40px; background:var(--dark); border-radius:8px;">
+                            <i class="bi bi-telephone-fill" style="color:var(--gold);"></i>
+                        </div>
+                        <div>
+                            <div class="fw-bold small text-uppercase text-muted">Phone</div>
+                            <div class="fw-bold" style="color:var(--dark);">034 123 4567</div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mb-4">
+                        <div class="me-3 d-flex align-items-center justify-content-center" style="width:40px; height:40px; background:var(--dark); border-radius:8px;">
+                            <i class="bi bi-envelope-fill" style="color:var(--gold);"></i>
+                        </div>
+                        <div>
+                            <div class="fw-bold small text-uppercase text-muted">Email</div>
+                            <div class="fw-bold" style="color:var(--dark);">info@ironandivory.co.za</div>
+                        </div>
+                    </div>
+
+                    <p class="text-muted small mb-4">For appointment enquiries, please use our online booking system. Visit our <a asp-controller="Branches" asp-action="Index" class="fw-bold" style="color:var(--dark); text-decoration:underline;">Branches</a> page for locations.</p>
+
+                    <a asp-controller="Appointments" asp-action="Create" class="btn fw-bold w-100 py-2" style="background:var(--gold); color:black; border-radius:8px;">
+                        <i class="bi bi-calendar-check"></i> Book an Appointment
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Opening Hours -->
+        <div class="col-lg-5">
+            <div class="card shadow-sm h-100" style="border-radius:12px; border:1px solid #eee;">
+                <div class="card-body p-4">
+                    <h4 class="fw-bold mb-4" style="color:var(--dark);">Opening Hours</h4>
+
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="fw-bold">Sunday</span>
+                        <span class="fw-bold text-danger">Closed</span>
+                    </div>
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="fw-bold">Monday</span>
+                        <span>09:00 - 18:00</span>
+                    </div>
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="fw-bold">Tuesday</span>
+                        <span>09:00 - 18:00</span>
+                    </div>
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="fw-bold">Wednesday</span>
+                        <span>09:00 - 18:00</span>
+                    </div>
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="fw-bold">Thursday</span>
+                        <span>09:00 - 19:00</span>
+                    </div>
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="fw-bold">Friday</span>
+                        <span>09:00 - 19:00</span>
+                    </div>
+                    <div class="d-flex justify-content-between py-2">
+                        <span class="fw-bold">Saturday</span>
+                        <span>09:00 - 16:00</span>
+                    </div>
+
+                    <div class="mt-4 p-2 text-center small rounded" style="background:var(--light);">
+                        <i class="bi bi-geo-alt-fill me-1"></i> Multiple locations — <a asp-controller="Branches" asp-action="Index" class="fw-bold" style="color:var(--dark);">Find nearest branch</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

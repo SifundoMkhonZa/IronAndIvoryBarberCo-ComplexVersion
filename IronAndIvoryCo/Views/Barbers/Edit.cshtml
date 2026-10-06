@@ -1,0 +1,75 @@
+@model IronAndIvoryCo.Models.Barber
+@{
+    ViewData["Title"] = "Edit Barber";
+}
+
+<div class="page-hero">
+    <div class="container">
+        <h1>EDIT BARBER</h1>
+        <div class="gold-line"></div>
+        <p>Update barber profile details</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="form-card" style="background:white; border-radius:16px; padding:35px; box-shadow:0 15px 40px rgba(0,0,0,0.08); border:1px solid #eee;">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="Name" class="fw-bold small">FULL NAME</label>
+                            <input asp-for="Name" class="form-control" placeholder="e.g. John Smith" />
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Speciality" class="fw-bold small">SPECIALITY</label>
+                            <input asp-for="Speciality" class="form-control" placeholder="e.g. Fades, Beard Sculpt" />
+                            <span asp-validation-for="Speciality" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Email" class="fw-bold small">EMAIL</label>
+                            <input asp-for="Email" class="form-control" type="email" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Phone" class="fw-bold small">PHONE</label>
+                            <input asp-for="Phone" class="form-control" />
+                            <span asp-validation-for="Phone" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="BranchId" class="fw-bold small">BRANCH</label>
+                            <select asp-for="BranchId" class="form-select" asp-items="ViewBag.BranchId"></select>
+                            <span asp-validation-for="BranchId" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Role" class="fw-bold small">ROLE</label>
+                            <select asp-for="Role" class="form-select">
+                                <option value="Barber">Barber</option>
+                                <option value="Senior Barber">Senior Barber</option>
+                                <option value="Master Barber">Master Barber</option>
+                            </select>
+                        </div>
+
+                        <!-- DO NOT EDIT THESE AS INPUTS - they are relationships -->
+                        @* Schedules, Reviews, Appointments, Branch, Admin are navigation props - don't edit *@
+
+                        <div class="col-12 mt-4 d-flex gap-2">
+                            <button type="submit" class="btn btn-gold px-4 fw-bold"><i class="bi bi-check-lg"></i> Save Changes</button>
+                            <a asp-action="Index" class="btn btn-dark-custom px-4">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

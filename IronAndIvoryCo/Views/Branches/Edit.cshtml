@@ -1,0 +1,64 @@
+@model IronAndIvoryCo.Models.Branch
+@{
+    ViewData["Title"] = "Edit Branch";
+}
+
+<div class="page-hero" style="background:#111;">
+    <div class="container">
+        <h1>EDIT: @Model.BranchName.ToUpper()</h1>
+        <div class="gold-line"></div>
+        <p>@Model.Address, @Model.City</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="form-card" style="background:white; border-radius:20px; padding:40px; box-shadow:0 20px 50px rgba(0,0,0,0.08); border:1px solid #eee;">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <input type="hidden" asp-for="BranchId" />
+
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label asp-for="BranchName" class="fw-bold small">BRANCH NAME *</label>
+                            <input asp-for="BranchName" class="form-control" />
+                            <span asp-validation-for="BranchName" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-8">
+                            <label asp-for="Address" class="fw-bold small">STREET ADDRESS *</label>
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="City" class="fw-bold small">CITY *</label>
+                            <input asp-for="City" class="form-control" />
+                            <span asp-validation-for="City" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="OpeningTime" class="fw-bold small">OPENING TIME *</label>
+                            <input asp-for="OpeningTime" class="form-control" type="time" />
+                            <span asp-validation-for="OpeningTime" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="ClosingTime" class="fw-bold small">CLOSING TIME *</label>
+                            <input asp-for="ClosingTime" class="form-control" type="time" />
+                            <span asp-validation-for="ClosingTime" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12 mt-4 d-flex gap-2">
+                            <button type="submit" class="btn btn-gold flex-grow-1 py-3 fw-bold"><i class="bi bi-check-lg"></i> SAVE CHANGES</button>
+                            <a asp-action="Details" asp-route-id="@Model.BranchId" class="btn btn-dark-custom px-4 py-3">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

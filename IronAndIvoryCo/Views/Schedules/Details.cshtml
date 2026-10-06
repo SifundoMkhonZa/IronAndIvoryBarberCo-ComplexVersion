@@ -1,0 +1,35 @@
+@model IronAndIvoryCo.Models.Schedule
+@{
+    ViewData["Title"] = "Schedule Details";
+}
+<div class="banner-black" style="background:#111;padding:50px 0;text-align:center;color:white;">
+    <h1>@Model.DayOfWeek.ToString().ToUpper()</h1>
+    <p class="text-white-50 mb-0">@Model.Barber?.Name • @Model.StartTime.ToString(@"hh\:mm") - @Model.EndTime.ToString(@"hh\:mm")</p>
+</div>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <div class="card-service p-4 shadow-sm" style="border-radius:14px; background:white;">
+                <div class="d-flex justify-content-between mb-3">
+                    <span class="fw-bold text-uppercase">@Model.DayOfWeek</span>
+                    <span class="badge-gold" style="position:static; background:#FFC107; color:#111; font-weight:800; padding:6px 12px; border-radius:8px;">@(Model.IsAvailable ? "AVAILABLE" : "UNAVAILABLE")</span>
+                </div>
+                <dl class="row small">
+                    <dt class="col-5 text-muted">BARBER</dt>
+                    <dd class="col-7 fw-bold">@Model.Barber?.Name</dd>
+                    <dt class="col-5 text-muted">SHIFT</dt>
+                    <dd class="col-7">@Model.StartTime.ToString(@"hh\:mm") - @Model.EndTime.ToString(@"hh\:mm")</dd>
+                    <dt class="col-5 text-muted">STATUS</dt>
+                    <dd class="col-7">@(Model.IsAvailable ? "Open for booking" : "Closed")</dd>
+                </dl>
+                <div class="d-flex gap-2 mt-4">
+                    @if (User.IsInRole("Admin") || User.IsInRole("Receptionist"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@Model.ScheduleId" class="btn-create-gold flex-grow-1 text-center" style="background:#FFC107;color:#111;font-weight:800;padding:10px;border-radius:10px;text-decoration:none;">Edit</a>
+                    }
+                    <a asp-action="Index" class="btn-book flex-grow-1 text-center" style="background:#111;color:white;padding:10px;border-radius:10px;text-decoration:none;">Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

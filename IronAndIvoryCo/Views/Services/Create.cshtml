@@ -1,0 +1,79 @@
+@model IronAndIvoryCo.Models.Service
+@{
+    ViewData["Title"] = "Create Service";
+}
+
+<div class="banner-black" style="padding: 40px 20px;">
+    <h1>ADD NEW SERVICE</h1>
+    <p>Create a new service for Iron & Ivory Co</p>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card-form">
+                <h4 class="fw-bold mb-4"><span style="color:var(--gold)">|</span> New Service Information</h4>
+
+                <form asp-action="Create" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label asp-for="Name" class="form-label fw-bold small text-uppercase"></label>
+                            <input asp-for="Name" class="form-control" placeholder="e.g. Classic Haircut" />
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="ServiceCategory" class="form-label fw-bold small text-uppercase"></label>
+                            <select asp-for="ServiceCategory" class="form-control" asp-items="@Html.GetEnumSelectList<IronAndIvoryCo.Models.Enums.ServiceCategory>()"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="BranchId" class="form-label fw-bold small text-uppercase">Branch</label>
+                            <select asp-for="BranchId" class="form-control" asp-items="ViewBag.BranchId"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Price" class="form-label fw-bold small text-uppercase"></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark text-white">R</span>
+                                <input asp-for="Price" class="form-control" placeholder="250.00" />
+                            </div>
+                            <span asp-validation-for="Price" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="DurationInMinutes" class="form-label fw-bold small text-uppercase">Duration (Minutes)</label>
+                            <input asp-for="DurationInMinutes" class="form-control" placeholder="30" />
+                            <span asp-validation-for="DurationInMinutes" class="text-danger small"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="Description" class="form-label fw-bold small text-uppercase"></label>
+                            <textarea asp-for="Description" class="form-control" rows="3" placeholder="Describe what this service includes..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12 mt-2 p-3" style="background:#FFF8E1; border-radius:10px; border: 2px dashed #FFC107;">
+                            <label asp-for="ImageFile" class="form-label fw-bold small text-uppercase">Service Image</label>
+                            <input asp-for="ImageFile" type="file" class="form-control" accept="image/*" />
+                            <small class="text-muted">Upload a high-quality image like your screenshot (Recommended: 400x220)</small>
+                            <span asp-validation-for="ImageFile" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12 d-flex gap-2 mt-4">
+                            <button type="submit" class="btn-create-gold flex-grow-1 py-2" style="font-size:1rem">Create Service</button>
+                            <a asp-action="Index" class="btn btn-outline-dark flex-grow-1 py-2 fw-bold" style="border-radius:8px">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="text-center mt-3">
+                <a asp-action="Index" class="text-muted text-decoration-none small">← Back to Services & Pricing</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

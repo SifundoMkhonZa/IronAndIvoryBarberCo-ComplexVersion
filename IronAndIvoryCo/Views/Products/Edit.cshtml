@@ -1,0 +1,70 @@
+@model IronAndIvoryCo.Models.Product
+@{
+    ViewData["Title"] = "Edit Product";
+}
+<div class="page-hero">
+    <div class="container">
+        <h1>EDIT PRODUCT</h1>
+        <div class="gold-line"></div>
+        <p>Update product information</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="form-card" style="background:white; border-radius:16px; padding:35px; box-shadow:0 15px 40px rgba(0,0,0,0.08); border:1px solid #eee;">
+                <form asp-action="Edit" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="ProductId" />
+                    <input type="hidden" asp-for="ImageUrl" />
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <label asp-for="ProductName" class="fw-bold small">PRODUCT NAME</label>
+                            <input asp-for="ProductName" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Brand" class="fw-bold small">BRAND</label>
+                            <input asp-for="Brand" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Price" class="fw-bold small">PRICE (R)</label>
+                            <div class="input-group"><span class="input-group-text">R</span><input asp-for="Price" class="form-control" /></div>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="StockQuantity" class="fw-bold small">STOCK</label>
+                            <input asp-for="StockQuantity" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Category" class="fw-bold small">CATEGORY</label>
+                            <select asp-for="Category" class="form-select">
+                                <option>Beard</option>
+                                <option>Hair</option>
+                                <option>Tools</option>
+                                <option>Gift Set</option>
+                                <option>Shave</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <div class="p-3 bg-light rounded d-flex align-items-center gap-3">
+                                <div>
+                                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                                    {
+                                        <img src="@Model.ImageUrl" width="90" height="90" style="object-fit:cover; border-radius:10px; border:2px solid #FFC107" />
+                                    }
+                                </div>
+                                <div class="flex-grow-1">
+                                    <label asp-for="ImageFile" class="fw-bold small">Change Image (optional)</label>
+                                    <input asp-for="ImageFile" type="file" class="form-control" accept="image/*" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-3 d-flex gap-2">
+                            <button type="submit" class="btn btn-gold px-4 fw-bold">Save Changes</button>
+                            <a asp-action="Index" class="btn btn-dark-custom px-4">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

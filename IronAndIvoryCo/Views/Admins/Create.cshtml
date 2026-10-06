@@ -1,0 +1,63 @@
+@model IronAndIvoryCo.Models.Admin
+@{
+    ViewData["Title"] = "Add Admin";
+}
+
+<div class="page-hero" style="background:#111;">
+    <div class="container">
+        <h1>ADD ADMIN</h1>
+        <div class="gold-line"></div>
+        <p>Create new admin account with access code</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="form-card" style="background:white; border-radius:16px; padding:35px; box-shadow:0 15px 40px rgba(0,0,0,0.08); border:1px solid #eee;">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="Name" class="fw-bold small">FULL NAME *</label>
+                            <input asp-for="Name" class="form-control" placeholder="e.g. Sipho Dlamini" />
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="AccessCode" class="fw-bold small">ACCESS CODE *</label>
+                            <input asp-for="AccessCode" class="form-control" placeholder="e.g. ADMIN-2025-01" style="letter-spacing:1px; font-weight:700;" />
+                            <span asp-validation-for="AccessCode" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Email" class="fw-bold small">EMAIL *</label>
+                            <input asp-for="Email" class="form-control" type="email" placeholder="admin@ironandivory.co.za" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Phone" class="fw-bold small">PHONE *</label>
+                            <input asp-for="Phone" class="form-control" placeholder="082 123 4567" />
+                            <span asp-validation-for="Phone" class="text-danger small"></span>
+                        </div>
+
+                        <!-- CreatedDate is auto set in controller, no need to show -->
+                        <!-- StaffMembers is navigation, don't edit -->
+
+                        <div class="col-12 mt-4 d-flex gap-2">
+                            <button type="submit" class="btn btn-gold px-4 fw-bold"><i class="bi bi-shield-lock"></i> Create Admin</button>
+                            <a asp-action="Index" class="btn btn-dark-custom px-4">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+                <div class="alert alert-warning mt-3 small">
+                    <i class="bi bi-info-circle"></i> Admin will use <b>Email</b> and <b>AccessCode</b> to log in. Keep AccessCode private.
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,65 @@
+@using IronAndIvoryCo.Models.Enums
+@model IronAndIvoryCo.Models.Barber
+@{
+    ViewData["Title"] = "Add Barber";
+}
+
+<div class="banner-black">
+    <h1>ADD NEW BARBER</h1>
+    <p>EXPAND YOUR TEAM OF CRAFTSMEN</p>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card-form">
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="All" class="text-danger mb-3 small"></div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="Name" class="form-label fw-bold small">FULL NAME *</label>
+                            <input asp-for="Name" class="form-control" placeholder="e.g. Thabo Mbeki" />
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Speciality" class="form-label fw-bold small">SPECIALITY *</label>
+                            <select asp-for="Speciality" class="form-select" asp-items="Html.GetEnumSelectList<Speciality>()">
+                                <option value="">-- Select Speciality --</option>
+                            </select>
+                            <span asp-validation-for="Speciality" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Email" class="form-label fw-bold small">EMAIL *</label>
+                            <input asp-for="Email" class="form-control" type="email" placeholder="barber@ironandivory.co.za" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Phone" class="form-label fw-bold small">PHONE *</label>
+                            <input asp-for="Phone" class="form-control" placeholder="082 123 4567" />
+                            <span asp-validation-for="Phone" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label asp-for="BranchId" class="form-label fw-bold small">BRANCH *</label>
+                            <select asp-for="BranchId" class="form-select" asp-items="ViewBag.BranchId">
+                                <option value="">-- Select Branch --</option>
+                            </select>
+                            <span asp-validation-for="BranchId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12 mt-4 d-flex gap-2">
+                            <button type="submit" class="btn-create-gold flex-grow-1">+ Add Barber</button>
+                            <a asp-action="Index" class="btn-book flex-grow-1 text-center">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

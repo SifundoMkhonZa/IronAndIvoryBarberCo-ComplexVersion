@@ -1,0 +1,190 @@
+@model IronAndIvoryCo.Models.Appointment
+@{
+    ViewData["Title"] = "Edit Appointment";
+}
+
+<div class="page-hero" style="background:#111;">
+    <div class="container">
+        <h1>EDIT APPOINTMENT #@Model.AppointmentId</h1>
+        <div class="gold-line"></div>
+        <p>
+            @Model.Customer?.Name •
+            @Model.Date.ToString("dd MMM yyyy") at
+            @Model.Time.ToString(@"hh\:mm")
+        </p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="form-card"
+                 style="background:white; border-radius:20px; padding:40px; box-shadow:0 20px 50px rgba(0,0,0,0.08); border:1px solid #eee;">
+
+                <form asp-action="Edit">
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <input type="hidden" asp-for="AppointmentId" />
+
+                    <div class="row g-3">
+
+                        <!-- DATE -->
+                        <div class="col-md-4">
+                            <label asp-for="Date" class="fw-bold small">DATE *</label>
+                            <input asp-for="Date" class="form-control" type="date" />
+                            <span asp-validation-for="Date" class="text-danger small"></span>
+                        </div>
+
+                        <!-- TIME -->
+                        <div class="col-md-4">
+                            <label asp-for="Time" class="fw-bold small">TIME *</label>
+                            <input asp-for="Time" class="form-control" type="time" />
+                            <span asp-validation-for="Time" class="text-danger small"></span>
+                        </div>
+
+                        <!-- APPOINTMENT STATUS -->
+                        <div class="col-md-4">
+                            <label asp-for="AppointmentStatus" class="fw-bold small">
+                                STATUS *
+                            </label>
+
+                            <select asp-for="AppointmentStatus"
+                                    class="form-select"
+                                    asp-items="Html.GetEnumSelectList<IronAndIvoryCo.Models.Enums.AppointmentStatus>()">
+                            </select>
+
+                            <span asp-validation-for="AppointmentStatus"
+                                  class="text-danger small">
+                            </span>
+                        </div>
+
+                        <!-- SERVICE -->
+                        <div class="col-md-6">
+                            <label asp-for="ServiceId" class="fw-bold small">
+                                SERVICE *
+                            </label>
+
+                            <select asp-for="ServiceId"
+                                    class="form-select"
+                                    asp-items="ViewBag.ServiceId">
+                            </select>
+
+                            <span asp-validation-for="ServiceId"
+                                  class="text-danger small">
+                            </span>
+                        </div>
+
+                        <!-- BARBER -->
+                        <div class="col-md-6">
+                            <label asp-for="BarberId" class="fw-bold small">
+                                BARBER *
+                            </label>
+
+                            <select asp-for="BarberId"
+                                    class="form-select"
+                                    asp-items="ViewBag.BarberId">
+                            </select>
+
+                            <span asp-validation-for="BarberId"
+                                  class="text-danger small">
+                            </span>
+                        </div>
+
+                        <!-- BRANCH -->
+                        <div class="col-md-6">
+                            <label asp-for="BranchId" class="fw-bold small">
+                                BRANCH *
+                            </label>
+
+                            <select asp-for="BranchId"
+                                    class="form-select"
+                                    asp-items="ViewBag.BranchId">
+                            </select>
+
+                            <span asp-validation-for="BranchId"
+                                  class="text-danger small">
+                            </span>
+                        </div>
+
+                        <!-- CUSTOMER -->
+                        <div class="col-md-6">
+                            <label asp-for="CustomerId" class="fw-bold small">
+                                CUSTOMER *
+                            </label>
+
+                            <select asp-for="CustomerId"
+                                    class="form-select"
+                                    asp-items="ViewBag.CustomerId">
+                            </select>
+
+                            <span asp-validation-for="CustomerId"
+                                  class="text-danger small">
+                            </span>
+                        </div>
+
+                        <!-- NOTE -->
+                        <div class="col-12">
+                            <label asp-for="Note" class="fw-bold small">
+                                NOTE
+                            </label>
+
+                            <textarea asp-for="Note"
+                                      class="form-control"
+                                      rows="3">
+                            </textarea>
+
+                            <span asp-validation-for="Note"
+                                  class="text-danger small">
+                            </span>
+                        </div>
+
+                        <!-- RECEPTIONIST -->
+                        <div class="col-md-6">
+                            <label asp-for="ReceptionistId" class="fw-bold small">
+                                RECEPTIONIST
+                            </label>
+
+                            <select asp-for="ReceptionistId"
+                                    class="form-select"
+                                    asp-items="ViewBag.ReceptionistId">
+                            </select>
+
+                            <span asp-validation-for="ReceptionistId"
+                                  class="text-danger small">
+                            </span>
+                        </div>
+
+                        <!-- BUTTONS -->
+                        <div class="col-12 mt-4 d-flex gap-2">
+
+                            <button type="submit"
+                                    class="btn btn-gold flex-grow-1 py-3 fw-bold">
+                                <i class="bi bi-check-lg"></i>
+                                SAVE CHANGES
+                            </button>
+
+                            <a asp-action="Details"
+                               asp-route-id="@Model.AppointmentId"
+                               class="btn btn-dark-custom px-4 py-3">
+                                Cancel
+                            </a>
+
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+

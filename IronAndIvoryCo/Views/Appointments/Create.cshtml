@@ -1,0 +1,103 @@
+@model IronAndIvoryCo.Models.Appointment
+@{
+    ViewData["Title"] = "Book Appointment";
+}
+
+<div class="page-hero">
+    <div class="container">
+        <h1>BOOK YOUR CUT</h1>
+        <div class="gold-line"></div>
+        <p>Secure your chair with our master barbers</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center g-4">
+        <div class="col-lg-8">
+            <div class="form-card" style="background:white; border-radius:20px; padding:40px; box-shadow:0 20px 50px rgba(0,0,0,0.08); border:1px solid #eee;">
+                
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:50px;height:50px;background:#111;color:#FFC107;"><i class="bi bi-scissors fs-4"></i></div>
+                    <div>
+                        <h4 class="fw-bold mb-0" style="font-weight:800">NEW APPOINTMENT</h4>
+                        <small class="text-muted">Fill in details to reserve</small>
+                    </div>
+                </div>
+
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="Date" class="fw-bold small">DATE *</label>
+                            <input asp-for="Date" class="form-control" type="date" />
+                            <span asp-validation-for="Date" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Time" class="fw-bold small">TIME *</label>
+                            <input asp-for="Time" class="form-control" type="time" />
+                            <span asp-validation-for="Time" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="ServiceId" class="fw-bold small">SERVICE *</label>
+                            <select asp-for="ServiceId" class="form-select" asp-items="ViewBag.ServiceId">
+                                <option value="">-- Select Service --</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="BarberId" class="fw-bold small">BARBER *</label>
+                            <select asp-for="BarberId" class="form-select" asp-items="ViewBag.BarberId">
+                                <option value="">-- Choose Barber --</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="BranchId" class="fw-bold small">BRANCH *</label>
+                            <select asp-for="BranchId" class="form-select" asp-items="ViewBag.BranchId">
+                                <option value="">-- Select Branch --</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="CustomerId" class="fw-bold small">CUSTOMER *</label>
+                            <select asp-for="CustomerId" class="form-select" asp-items="ViewBag.CustomerId">
+                                <option value="">-- Select Customer --</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Note" class="fw-bold small">NOTE (Optional)</label>
+                            <textarea asp-for="Note" class="form-control" rows="3" placeholder="Any special request? e.g. beard trim, skin fade..."></textarea>
+                            <span asp-validation-for="Note" class="text-danger small"></span>
+                        </div>
+
+                        @* Hidden status - default Pending, Receptionist auto in controller *@
+                        <input type="hidden" asp-for="AppointmentStatus" value="0" />
+
+                        <div class="col-12 mt-4 d-flex gap-2">
+                            <button type="submit" class="btn btn-gold flex-grow-1 py-3 fw-bold" style="font-weight:800; letter-spacing:1px;"><i class="bi bi-calendar-check"></i> CONFIRM BOOKING</button>
+                            <a asp-action="Index" class="btn btn-dark-custom px-4 py-3">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="ivory-card p-4" style="background:#111; color:white;">
+                <h6 class="fw-bold text-warning"><i class="bi bi-clock"></i> OPENING HOURS</h6>
+                <div class="small mt-3">
+                    <div class="d-flex justify-content-between py-1"><span>Mon - Fri</span><span>08:00 - 19:00</span></div>
+                    <div class="d-flex justify-content-between py-1"><span>Saturday</span><span>08:00 - 18:00</span></div>
+                    <div class="d-flex justify-content-between py-1"><span>Sunday</span><span>09:00 - 16:00</span></div>
+                </div>
+                <hr style="border-color:#333;"/>
+                <small class="text-muted">Walk-ins welcome but booking secures your spot. No-show fee applies after 15 min delay.</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

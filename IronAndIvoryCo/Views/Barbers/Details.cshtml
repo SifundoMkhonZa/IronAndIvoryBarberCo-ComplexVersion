@@ -1,0 +1,132 @@
+@model IronAndIvoryCo.Models.Barber
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="page-hero" style="background:#111; padding:50px 0; text-align:center; color:white;">
+    <div class="container">
+        <h1 style="font-weight:800; letter-spacing:2px;">@Model.Name?.ToUpper()</h1>
+        <div class="gold-line" style="width:60px; height:4px; background:#D4AF37; margin:15px auto;"></div>
+        <p class="text-white-50 mb-0">@Model.Role • @Model.Speciality</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row g-5 justify-content-center">
+        <div class="col-lg-5 text-center">
+            <div class="ivory-card p-5 shadow-sm" style="border-radius:16px; background:white;">
+                <div class="mx-auto mb-4" style="width:140px; height:140px;">
+                    <div class="w-100 h-100 rounded-circle d-flex align-items-center justify-content-center" style="background:#1E2126; color:#FFC107; font-weight:800; font-size:3rem;">
+                        @(Model.Name?.Substring(0,1).ToUpper()?? "B")
+                    </div>
+                </div>
+                <h3 class="fw-bold" style="font-weight:800">@Model.Name</h3>
+                <span class="ivory-badge position-static mb-3 d-inline-block" style="background:#FFC107; color:#111; font-weight:800; padding:6px 12px; border-radius:8px;">@Model.Speciality</span>
+
+                <div class="mt-4 text-start">
+                    <div class="d-flex justify-content-between py-2 border-bottom"><span class="text-muted">Role</span><strong>@Model.Role</strong></div>
+                    <div class="d-flex justify-content-between py-2 border-bottom"><span class="text-muted">Branch</span><strong>@Model.Branch?.BranchName</strong></div>
+                    <div class="d-flex justify-content-between py-2 border-bottom"><span class="text-muted">Email</span><strong>@Model.Email</strong></div>
+                    <div class="d-flex justify-content-between py-2 border-bottom"><span class="text-muted">Phone</span><strong>@Model.Phone</strong></div>
+                    <div class="d-flex justify-content-between py-2"><span class="text-muted">Joined</span><strong>@Model.CreatedDate.ToString("MMM yyyy")</strong></div>
+                </div>
+
+                <div class="mt-4 d-flex gap-2">
+                    @if (User.IsInRole("Admin") || User.Identity?.Name == Model.Email)
+                    {
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-gold w-50 fw-bold" style="background:#FFC107; color:#111; font-weight:800; border-radius:10px; padding:10px; text-decoration:none;">Edit Profile</a>
+                    }
+                    <a asp-action="Index" class="btn btn-dark-custom w-50" style="background:#111; color:white; border-radius:10px; padding:10px; text-decoration:none;">Back</a>
+                </div>
+            </div>
+
+            <!-- REVIEWS SECTION -->
+            <div class="ivory-card p-4 mt-4 text-start shadow-sm" style="border-radius:16px; background:white;">
+                <h6 class="fw-bold mb-3">REVIEWS (@(Model.Reviews?.Count?? 0))</h6>
+                @if (Model.Reviews!= null && Model.Reviews.Any())
+                {
+                    foreach (var r in Model.Reviews.OrderByDescending(x => x.ReviewDate))
+                    {
+                        <div class="border-bottom py-3">
+                            <div class="d-flex justify-content-between">
+                                <strong>@r.Customer?.Name</strong>
+                                <span style="color:#FFC107">@for(int i=0;i<r.Rating;i++){<i class="bi bi-star-fill"></i>}</span>
+                            </div>
+                            <p class="small text-muted mb-1">@r.ReviewDate.ToString("dd MMM yyyy")</p>
+                            <p class="mb-0">@r.Comment</p>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <small class="text-muted">No reviews yet — be the first!</small>
+                }
+
+                @if (User.Identity!= null && User.Identity.IsAuthenticated)
+                {
+                <!-- REVIEW FORM - Only for logged in Customers -->
+                <div class="card-form mt-4 p-3 shadow-sm" style="border-radius:12px; background:#f8f9fa;">
+                    <h6 class="fw-bold mb-3">LEAVE A REVIEW</h6>
+                    <form asp-action="Create" asp-controller="Reviews" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="BarberId" value="@Model.Id" />
+                        <div class="mb-3">
+                            <select name="Rating" class="form-select" required>
+                                <option value="">-- Rating --</option>
+                                <option value="5">5 - Excellent</option>
+                                <option value="4">4 - Good</option>
+                                <option value="3">3 - Okay</option>
+                                <option value="2">2 - Poor</option>
+                                <option value="1">1 - Bad</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <textarea name="Comment" class="form-control" rows="3" placeholder="How was your cut?" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-create-gold w-100" style="background:#FFC107; color:#111; font-weight:800; border-radius:8px; padding:10px; border:none;">Submit Review</button>
+                    </form>
+                </div>
+                }
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="row g-3">
+                <div class="col-6">
+                    <div class="bg-light rounded-3 p-4 text-center">
+                        <h3 class="fw-bold mb-0">@(Model.Appointments?.Count?? 0)</h3>
+                        <small class="text-muted">Appointments</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="bg-light rounded-3 p-4 text-center">
+                        <h3 class="fw-bold mb-0">@(Model.Reviews?.Count?? 0)</h3>
+                        <small class="text-muted">Reviews</small>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="ivory-card p-4 shadow-sm" style="border-radius:16px; background:white;">
+                        <h6 class="fw-bold mb-3">SPECIALITY & SKILLS</h6>
+                        <p class="text-muted">@Model.Speciality</p>
+                        <hr/>
+                        <h6 class="fw-bold mb-3">WORK SCHEDULE</h6>
+                        @if (Model.Schedules!= null && Model.Schedules.Any())
+                        {
+                            foreach (var s in Model.Schedules)
+                            {
+                                <div class="small d-flex justify-content-between py-1"><span>@s.DayOfWeek</span><span>@s.StartTime - @s.EndTime</span></div>
+                            }
+                        }
+                        else
+                        {
+                            <small class="text-muted">No schedule set</small>
+                        }
+                    </div>
+                </div>
+                <div class="col-12">
+                    <a asp-controller="Appointments" asp-action="Create" asp-route-barberId="@Model.Id" class="btn btn-dark-custom w-100 py-3 fw-bold" style="background:#111; color:white; border-radius:10px; text-decoration:none; text-align:center;"><i class="bi bi-calendar"></i> Book with @Model.Name.Split(' ')[0]</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,103 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<!-- HERO - Uses your --dark and --gold from site.css -->
+<div style="background: var(--dark); padding: 100px 0 80px 0;">
+    <div class="container px-5">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <span class="badge mb-3 px-3 py-2 text-uppercase fw-bold" style="background:var(--gold); color:black; letter-spacing:1px; font-size:11px; border-radius:6px;">Premium Barbershop • Est. 2020</span>
+                <h1 class="fw-bold text-uppercase display-3 text-white" style="line-height:0.95; letter-spacing:-1px;">
+                    Crafting<br/>
+                    <span style="color:var(--gold);">Gentlemen</span><br/>
+                    Since Day One
+                </h1>
+                <p class="mt-4 text-white-50" style="max-width:500px; font-size:1.15rem;">
+                    Precision cuts, hot towel shaves, and premium grooming. Iron & Ivory is where tradition meets modern luxury.
+                </p>
+                <div class="mt-4">
+                    <a asp-controller="Appointments" asp-action="Create" class="btn btn-lg fw-bold px-5 py-3 me-2" style="background:var(--gold); color:black; border-radius:8px;">
+                        <i class="bi bi-calendar2-check me-2"></i> BOOK NOW
+                    </a>
+                    <a asp-controller="Products" asp-action="Index" class="btn btn-lg fw-bold px-4 py-3 btn-outline-light" style="border-radius:8px;">
+                        Shop Products
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-5 mt-5 mt-lg-0">
+                <div class="card shadow border-0 p-4" style="border-radius:12px;">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="fw-bold small text-uppercase" style="color:var(--dark); letter-spacing:0.5px;">Iron & Ivory Co.</span>
+                        <span class="badge" style="background:var(--dark); color:var(--gold);"><i class="bi bi-dot"></i> Open Now</span>
+                    </div>
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="small fw-bold text-muted">MON - WED</span>
+                        <span class="small fw-bold" style="color:var(--dark);">08:00 - 17:00</span>
+                    </div>
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="small fw-bold text-muted">THU - FRI</span>
+                        <span class="small fw-bold" style="color:var(--dark);">08:00 - 19:00</span>
+                    </div>
+                    <div class="d-flex justify-content-between py-2">
+                        <span class="small fw-bold text-muted">SATURDAY</span>
+                        <span class="small fw-bold" style="color:var(--dark);">09:00 - 16:00</span>
+                    </div>
+                    <a asp-controller="Branches" asp-action="Index" class="btn w-100 mt-3 fw-bold py-2" style="background:var(--dark); color:white; border-radius:8px;">
+                        Find Branch <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SERVICES -->
+<div class="container px-5 py-5">
+    <div class="text-center mb-5 mt-4">
+        <h6 class="fw-bold text-uppercase" style="color:var(--gold); letter-spacing:2px;">What We Do</h6>
+        <h2 class="fw-bold text-uppercase" style="color:var(--dark);">Premium Grooming</h2>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100 p-4 border-0" style="border-left:4px solid var(--gold) !important;">
+                <div class="mb-3 d-flex align-items-center justify-content-center" style="width:50px; height:50px; background:var(--dark); border-radius:8px;">
+                    <i class="bi bi-scissors fs-5" style="color:var(--gold);"></i>
+                </div>
+                <h5 class="fw-bold" style="color:var(--dark);">Signature Cut</h5>
+                <p class="text-muted small">Precision fade or classic cut tailored to your style.</p>
+                <span class="fw-bold small" style="color:var(--dark);">From R 150</span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100 p-4 border-0" style="border-left:4px solid var(--gold) !important;">
+                <div class="mb-3 d-flex align-items-center justify-content-center" style="width:50px; height:50px; background:var(--dark); border-radius:8px;">
+                    <i class="bi bi-droplet fs-5" style="color:var(--gold);"></i>
+                </div>
+                <h5 class="fw-bold" style="color:var(--dark);">Royal Shave</h5>
+                <p class="text-muted small">Hot towel, straight razor shave with premium oils.</p>
+                <span class="fw-bold small" style="color:var(--dark);">From R 180</span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100 p-4 border-0" style="border-left:4px solid var(--gold) !important;">
+                <div class="mb-3 d-flex align-items-center justify-content-center" style="width:50px; height:50px; background:var(--dark); border-radius:8px;">
+                    <i class="bi bi-stars fs-5" style="color:var(--gold);"></i>
+                </div>
+                <h5 class="fw-bold" style="color:var(--dark);">Beard Sculpt</h5>
+                <p class="text-muted small">Beard trim, line-up and conditioning to keep you sharp.</p>
+                <span class="fw-bold small" style="color:var(--dark);">From R 120</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- GOLD STRIP -->
+<div class="py-4" style="background:var(--gold);">
+    <div class="container px-5 d-flex flex-column flex-md-row justify-content-between align-items-center">
+        <h5 class="fw-bold text-uppercase mb-2 mb-md-0" style="color:black; letter-spacing:0.5px;">
+            <i class="bi bi-lightning-charge-fill"></i> Ready for your freshest look yet?
+        </h5>
+        <a asp-controller="Appointments" asp-action="Create" class="btn fw-bold px-4" style="background:var(--dark); color:var(--gold); border-radius:8px;">Book Appointment</a>
+    </div>
+</div>

@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Iron & Ivory</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+            :root {
+                --dark: #1E2126;
+                --black: #0B0B0B;
+                --gold: #FFC107;
+                --gold-dark: #FFB000;
+                --light: #F8F9FA;
+            }
+
+            body {
+                background: #FFFFFF;
+                font-family: 'Segoe UI', Inter, sans-serif;
+            }
+
+            .navbar-custom {
+                background-color: var(--dark) !important;
+                padding: 14px 0;
+            }
+
+                .navbar-custom .navbar-brand {
+                    color: white !important;
+                    font-weight: 800;
+                    letter-spacing: 1px;
+                    font-size: 1.2rem;
+                }
+
+                .navbar-custom .nav-link {
+                    color: #ADB5BD !important;
+                    font-weight: 500;
+                    margin-left: 18px;
+                    font-size: 0.95rem;
+                    transition: color 0.2s ease;
+                }
+
+                    .navbar-custom .nav-link:hover {
+                        color: var(--gold) !important;
+                    }
+
+                    .navbar-custom .nav-link.active {
+                        color: var(--gold) !important;
+                        font-weight: 700;
+                    }
+
+            .btn-gold-nav {
+                background: var(--gold);
+                color: black !important;
+                font-weight: 700;
+                border-radius: 6px;
+                padding: 6px 18px !important;
+                margin-left: 20px;
+            }
+
+                .btn-gold-nav:hover {
+                    background: var(--gold-dark) !important;
+                    color: black !important;
+                }
+
+            footer {
+                background: var(--dark);
+                color: #ADB5BD;
+                padding: 20px 0;
+                margin-top: 60px;
+            }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-custom shadow-sm">
+            <div class="container-fluid px-5">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">IRON & IVORY</a>
+                <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        @{
+                            string current = ViewContext.RouteData.Values["Controller"]?.ToString();
+                        }
+                        <li class="nav-item"><a class="nav-link @(current == "Home" ? "active" : "")" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li class="nav-item"><a class="nav-link @(current == "Services" ? "active" : "")" asp-controller="Services" asp-action="Index">Services</a></li>
+                        <li class="nav-item"><a class="nav-link @(current == "Products" ? "active" : "")" asp-controller="Products" asp-action="Index">Products</a></li>
+                        <li class="nav-item"><a class="nav-link @(current == "Reviews" ? "active" : "")" asp-controller="Reviews" asp-action="Index">Reviews</a></li>
+
+                        @* Public view for Customer & Guest only - not for staff *@
+                        @if (!User.IsInRole("Admin") && !User.IsInRole("Barber") && !User.IsInRole("Receptionist"))
+                        {
+                            <li class="nav-item"><a class="nav-link @(current == "Barbers" ? "active" : "")" asp-controller="Barbers" asp-action="Index">Barbers</a></li>
+                            <li class="nav-item"><a class="nav-link @(current == "Branches" ? "active" : "")" asp-controller="Branches" asp-action="Index">Branches</a></li>
+                        }
+
+                        @* BOOK NOW - Customer only *@
+                        @if (User.IsInRole("Customer"))
+                        {
+                            <li class="nav-item"><a class="nav-link btn-gold-nav" asp-controller="Appointments" asp-action="Create">BOOK NOW</a></li>
+                        }
+                        else if (!User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item"><a class="nav-link btn-gold-nav" asp-area="Identity" asp-page="/Account/Login">BOOK NOW</a></li>
+                        }
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item dropdown ms-2">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Admin</a>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li><a class="dropdown-item" asp-controller="Appointments" asp-action="Index">All Appointments</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Customers" asp-action="Index">Customers</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Barbers" asp-action="Index">Manage Barbers</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Services" asp-action="Index">Manage Services</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Products" asp-action="Index">Manage Products</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Branches" asp-action="Index">Manage Branches</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-controller="Sales" asp-action="Index">Sales</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Payments" asp-action="Index">Payments</a></li>
+                                </ul>
+                            </li>
+                        }
+                        @if (User.IsInRole("Receptionist"))
+                        {
+                            <li class="nav-item dropdown ms-2">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Reception</a>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li><a class="dropdown-item" asp-controller="Appointments" asp-action="Index">Appointments</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Sales" asp-action="Index">Sales</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Payments" asp-action="Index">Payments</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Schedules" asp-action="Index">Schedules</a></li>
+                                </ul>
+                            </li>
+                        }
+                        @if (User.IsInRole("Barber"))
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-controller="Schedules" asp-action="Index">My Schedule</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Appointments" asp-action="Index">My Appointments</a></li>
+                        }
+                        @if (User.IsInRole("Customer"))
+                        {
+                            <li class="nav-item"><a class="nav-link @(current == "Customers" ? "active" : "")" asp-controller="Customers" asp-action="MyProfile"><i class="bi bi-person"></i> My Profile</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Appointments" asp-action="MyOrders"><i class="bi bi-bag"></i> My Orders</a></li>
+                        }
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item ms-3"><span class="nav-link text-light"><i class="bi bi-person-circle"></i> @User.Identity.Name</span></li>
+                            <li class="nav-item">
+                                <form class="d-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                    <button type="submit" class="nav-link btn btn-link" style="color:#ADB5BD !important;">Logout</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item ms-2"><a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid p-0">
+        <main role="main">
+            @if (TempData["Success"] != null)
+            {
+                <div class="container mt-3">
+                    <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert" style="border-left:6px solid var(--gold); background:#fff; color:var(--dark);">
+                        <i class="bi bi-check-circle-fill me-2" style="color:var(--gold);"></i> <strong>@TempData["Success"]</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                </div>
+            }
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="text-center">
+        <div class="container"><small>&copy; 2026 IRON & IVORY - All rights reserved</small></div>
+    </footer>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,53 @@
+@model IronAndIvoryCo.Models.Schedule
+@{
+    ViewData["Title"] = "Create Schedule";
+}
+<div class="banner-black"><h1>NEW SHIFT</h1><p>SET BARBER AVAILABILITY</p></div>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card-form">
+                <form asp-action="Create">
+                    <div asp-validation-summary="All" class="text-danger mb-3"></div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label asp-for="DayOfWeek" class="form-label fw-bold small">DAY OF WEEK *</label>
+                            <select asp-for="DayOfWeek" class="form-select">
+                                <option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option>
+                            </select>
+                            <span asp-validation-for="DayOfWeek" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="BarberId" class="form-label fw-bold small">BARBER *</label>
+                            <select asp-for="BarberId" class="form-select" asp-items="ViewBag.BarberId" required>
+                                <option value="">-- Select Barber --</option>
+                            </select>
+                            <span asp-validation-for="BarberId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label asp-for="StartTime" class="form-label fw-bold small">START TIME *</label>
+                            <input asp-for="StartTime" class="form-control" type="time" />
+                            <span asp-validation-for="StartTime" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="EndTime" class="form-label fw-bold small">END TIME *</label>
+                            <input asp-for="EndTime" class="form-control" type="time" />
+                            <span asp-validation-for="EndTime" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" asp-for="IsAvailable" checked />
+                        <label class="form-check-label fw-bold small" asp-for="IsAvailable"> Available for Booking</label>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn-create-gold flex-grow-1">CREATE SHIFT</button>
+                        <a asp-action="Index" class="btn-book flex-grow-1 text-center">Back</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts { @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} }

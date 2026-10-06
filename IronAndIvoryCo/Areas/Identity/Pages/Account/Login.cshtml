@@ -1,0 +1,103 @@
+@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Log in";
+    Layout = null;
+}
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" />
+
+<style>
+    .auth-wrapper {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #0B0B0B;
+        background: radial-gradient(circle at 50% 0%, #1E2126 0%, #0B0B0B 70%);
+        padding: 20px;
+    }
+
+    .auth-card {
+        width: 100%;
+        max-width: 440px;
+        background: #1E2126;
+        border: 1px solid #2a2e36;
+        border-radius: 16px;
+        padding: 45px 38px;
+        color: white;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+
+    .auth-divider {
+        height: 3px;
+        width: 50px;
+        background: #FFC107;
+        margin: 15px auto 30px auto;
+        border-radius: 2px;
+    }
+
+    .auth-card .form-control {
+        background: #0B0B0B !important;
+        border: 1px solid #2a2e36 !important;
+        color: white !important;
+        padding: 13px 16px;
+        border-radius: 8px;
+    }
+
+        .auth-card .form-control:focus {
+            border-color: #FFC107 !important;
+            box-shadow: 0 0 0 0.2rem rgba(255,193,7,0.25) !important;
+        }
+
+    .btn-gold-auth {
+        background: #FFC107;
+        color: black;
+        font-weight: 800;
+        letter-spacing: 1px;
+        padding: 13px;
+        border-radius: 8px;
+        border: none;
+        width: 100%;
+        transition: 0.2s;
+    }
+
+        .btn-gold-auth:hover {
+            background: #FFB000;
+            transform: translateY(-1px);
+        }
+</style>
+
+<div class="auth-wrapper">
+    <div class="auth-card shadow-lg">
+        <h2 class="text-center fw-bold" style="letter-spacing:2px;">IRON & IVORY</h2>
+        <p class="text-center small" style="color:#ADB5BD;">Newcastle CBD • Premium Grooming</p>
+        <div class="auth-divider"></div>
+        <form id="account" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+            <label asp-for="Input.Email" class="small fw-bold mb-1" style="color:#ADB5BD;">EMAIL</label>
+            <input asp-for="Input.Email" class="form-control mb-2" placeholder="you@ironandivory.co.za" autocomplete="username" />
+            <span asp-validation-for="Input.Email" class="text-danger small d-block mb-3"></span>
+
+            <label asp-for="Input.Password" class="small fw-bold mb-1" style="color:#ADB5BD;">PASSWORD</label>
+            <input asp-for="Input.Password" class="form-control mb-2" type="password" placeholder="••••••••" autocomplete="current-password" />
+            <span asp-validation-for="Input.Password" class="text-danger small d-block mb-3"></span>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="form-check">
+                    <input class="form-check-input" asp-for="Input.RememberMe" />
+                    <label class="form-check-label small" style="color:#ADB5BD;" asp-for="Input.RememberMe">Remember me</label>
+                </div>
+                <a asp-page="./ForgotPassword" class="small" style="color:#FFC107; text-decoration:none;">Forgot?</a>
+            </div>
+
+            <button type="submit" class="btn-gold-auth mb-3">LOG IN</button>
+            <p class="text-center mt-3 small"><span style="color:#ADB5BD;">No account?</span> <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" style="color:#FFC107; text-decoration:none; font-weight:700;">Create one</a></p>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

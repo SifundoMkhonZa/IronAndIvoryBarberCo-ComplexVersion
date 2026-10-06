@@ -1,0 +1,79 @@
+@model IEnumerable<IronAndIvoryCo.Models.Customer>
+@{
+    ViewData["Title"] = "Customers";
+}
+
+<div class="page-hero" style="background:#111;">
+    <div class="container d-flex justify-content-between align-items-end flex-wrap">
+        <div>
+            <h1>OUR CLIENTELE</h1>
+            <div class="gold-line"></div>
+            <p>@Model.Count() loyal members • Iron & Ivory family</p>
+        </div>
+        <a asp-action="Create" class="btn btn-gold px-4 py-2 fw-bold mb-2"><i class="bi bi-person-plus"></i> Add Customer</a>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="ivory-card p-3 d-flex justify-content-between align-items-center">
+                <div><small class="text-muted">TOTAL CUSTOMERS</small><h4 class="fw-bold m-0">@Model.Count()</h4></div><i class="bi bi-people fs-2 text-warning"></i>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="ivory-card p-3 d-flex justify-content-between align-items-center">
+                <div><small class="text-muted">AVG LOYALTY</small><h4 class="fw-bold m-0">@(Model.Any() ? Model.Average(x => x.LoyaltyPoints).ToString("F0") : "0") pts</h4></div><i class="bi bi-star fs-2 text-warning"></i>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="ivory-card p-3 d-flex justify-content-between align-items-center">
+                <div><small class="text-muted">NEW THIS MONTH</small><h4 class="fw-bold m-0">@Model.Count(x => x.CreatedDate.Month == DateTime.Now.Month)</h4></div><i class="bi bi-graph-up fs-2 text-warning"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="ivory-card p-0 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead style="background:#111;color:white;">
+                    <tr class="small text-uppercase">
+                        <th class="ps-4">Customer</th>
+                        <th>Contact</th>
+                        <th>Gender</th>
+                        <th>Loyalty</th>
+                        <th>Joined</th>
+                        <th class="text-end pe-4">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach(var item in Model.OrderByDescending(x => x.CreatedDate))
+                {
+                    <tr>
+                        <td class="ps-4">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:36px;height:36px;background:#111;color:#FFC107;font-weight:800;font-size:0.8rem;">@item.Name.Substring(0,1)</div>
+                                <div>
+                                    <strong style="font-size:0.9rem">@item.Name</strong><br/>
+                                    <small class="text-muted" style="font-size:0.7rem">DOB: @item.DateOfBirth.ToString("dd/MM/yyyy")</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="small">@item.Email<br/><span class="text-muted">@item.Phone</span></td>
+                        <td><span class="badge bg-light text-dark border">@item.Gender</span></td>
+                        <td><span class="badge bg-dark text-warning rounded-pill">@item.LoyaltyPoints pts</span></td>
+                        <td class="small">@item.CreatedDate.ToString("dd MMM yy")</td>
+                        <td class="text-end pe-4">
+                            <div class="btn-group btn-group-sm">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-dark"><i class="bi bi-eye"></i></a>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-dark"><i class="bi bi-pencil"></i></a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger"><i class="bi bi-trash"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,120 @@
+@using IronAndIvoryCo.Models.Enums
+@model IEnumerable<IronAndIvoryCo.Models.Appointment>
+@{
+    ViewData["Title"] = "Appointments";
+    var pending = Model.Count(a => a.AppointmentStatus == AppointmentStatus.Pending);
+    var today = Model.Count(a => a.Date == DateOnly.FromDateTime(DateTime.Today));
+    var isAdmin = User.IsInRole("Admin");
+    var isReception = User.IsInRole("Receptionist");
+    var isBarber = User.IsInRole("Barber");
+    var isStaff = isAdmin || isReception || isBarber;
+    var isCustomer = User.IsInRole("Customer");
+}
+<div class="page-hero" style="background:#111;">
+    <div class="container d-flex justify-content-between align-items-end flex-wrap">
+        <div>
+            <h1>@(isCustomer ? "MY ORDERS" : "APPOINTMENTS")</h1>
+            <div class="gold-line" style="width:60px;height:4px;background:#FFC107;margin:10px 0;"></div>
+            <p class="text-white-50">@Model.Count() bookings • @today today • @pending pending</p>
+        </div>
+        @* New Booking - CUSTOMER ONLY *@
+        @if (isCustomer)
+        {
+            <a asp-action="Create" class="btn btn-warning px-4 py-2 fw-bold mb-2"><i class="bi bi-plus-lg"></i> New Booking</a>
+        }
+    </div>
+</div>
+<div class="container py-5">
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+    <div class="row g-3">
+        @foreach (var item in Model.OrderByDescending(a => a.Date).ThenBy(a => a.Time))
+        {
+            var statusClass = item.AppointmentStatus switch
+            {
+                AppointmentStatus.Pending => "bg-warning text-dark",
+                AppointmentStatus.Confirmed => "bg-success",
+                AppointmentStatus.Completed => "bg-dark",
+                AppointmentStatus.Cancelled => "bg-danger",
+                _ => "bg-secondary"
+            };
+            <div class="col-lg-6">
+                <div class="ivory-card p-0 overflow-hidden shadow-sm border">
+                    <div class="d-flex">
+                        <div class="p-3 text-center" style="min-width:90px; background:#111; color:white;">
+                            <div class="fw-bold text-warning" style="font-size:0.8rem;">@item.Date.ToString("MMM")</div>
+                            <div class="fw-bold" style="font-size:1.8rem;">@item.Date.ToString("dd")</div>
+                            <div class="small">@item.Date.ToString("ddd")</div>
+                            <hr style="border-color:#333; margin:8px 0;" />
+                            <div class="fw-bold small">@item.Time.ToString(@"hh\:mm")</div>
+                        </div>
+                        <div class="p-3 flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-start mb-1">
+                                <h6 class="fw-bold mb-0">@item.Customer?.Name</h6>
+                                <span class="badge @statusClass rounded-pill" style="font-size:0.65rem;">@item.AppointmentStatus</span>
+                            </div>
+                            <div class="small text-muted mb-2">
+                                <i class="bi bi-scissors"></i> @item.Service?.Name - R @item.Service?.Price<br />
+                                <i class="bi bi-person"></i> @item.Barber?.Name • <i class="bi bi-geo-alt"></i> @item.Branch?.BranchName
+                            </div>
+
+                            <div class="mt-2 d-flex gap-1 flex-wrap">
+                                @* PAY - Customer only and only if not paid *@
+                                @if (isCustomer)
+                                {
+                                    if (!item.IsPaid)
+                                    {
+                                        <a asp-controller="Payments" asp-action="Create" asp-route-appointmentId="@item.AppointmentId" class="btn btn-sm btn-warning fw-bold">Pay</a>
+                                    }
+                                    else
+                                    {
+                                        <span class="btn btn-sm btn-outline-success disabled">Paid R @item.AmountPaid</span>
+                                    }
+                                }
+
+                                @* REVIEW - Customer only, completed only *@
+                                @if (isCustomer && item.AppointmentStatus == AppointmentStatus.Completed)
+                                {
+                                    if (item.Review == null)
+                                    {
+                                        <a asp-controller="Reviews" asp-action="Create" asp-route-appointmentId="@item.AppointmentId" class="btn btn-sm btn-dark fw-bold"><i class="bi bi-star"></i> Review @item.Barber?.Name</a>
+                                    }
+                                    else
+                                    {
+                                        <span class="btn btn-sm btn-outline-dark disabled"><i class="bi bi-star-fill text-warning"></i> Reviewed @item.Review.Rating/5</span>
+                                    }
+                                }
+
+                                @* STAFF ACTIONS - hidden from Customer completely *@
+                                @if (isStaff)
+                                {
+                                    @if (item.AppointmentStatus == AppointmentStatus.Pending && (isAdmin || isReception))
+                                    {
+                                        <form asp-action="Confirm" asp-route-id="@item.AppointmentId" method="post" class="d-inline">@Html.AntiForgeryToken()<button type="submit" class="btn btn-sm btn-success fw-bold">Confirm</button></form>
+                                    }
+                                    @if (item.AppointmentStatus == AppointmentStatus.Confirmed && item.IsPaid && (isAdmin || isReception || isBarber))
+                                    {
+                                        <form asp-action="Complete" asp-route-id="@item.AppointmentId" method="post" class="d-inline">@Html.AntiForgeryToken()<button type="submit" class="btn btn-sm btn-dark fw-bold">Complete</button></form>
+                                    }
+                                    <a asp-action="Details" asp-route-id="@item.AppointmentId" class="btn btn-sm btn-outline-dark"><i class="bi bi-eye"></i></a>
+                                    
+                                    @if (isAdmin)
+                                    {
+                                        <a asp-action="Edit" asp-route-id="@item.AppointmentId" class="btn btn-sm btn-outline-dark"><i class="bi bi-pencil"></i></a>
+                                        <a asp-action="Delete" asp-route-id="@item.AppointmentId" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                                    }
+                                }
+                                else
+                                {
+                                    <a asp-action="Details" asp-route-id="@item.AppointmentId" class="btn btn-sm btn-outline-dark">View</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

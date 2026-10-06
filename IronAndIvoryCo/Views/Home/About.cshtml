@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "About";
+}
+
+<div class="container mt-5">
+    <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+            <h6 class="fw-bold text-uppercase" style="color:var(--gold); letter-spacing:2px;">Est. 2020</h6>
+            <h1 class="fw-bold text-uppercase display-5" style="color:var(--dark);">Iron & Ivory<br/>More Than A Cut</h1>
+            <p class="text-muted mt-3">Iron & Ivory Co. is a premium barbershop built on precision, tradition, and modern style. We blend classic barbering with contemporary grooming for the gentleman who values detail.</p>
+            <p class="text-muted">With branches across KZN, our expert barbers deliver sharp fades, clean shaves, and tailored services in a space designed for comfort and class.</p>
+            <div class="row mt-4">
+                <div class="col-4 text-center">
+                    <h3 class="fw-bold" style="color:var(--dark);">5+</h3>
+                    <small class="text-muted text-uppercase fw-bold">Branches</small>
+                </div>
+                <div class="col-4 text-center border-start border-end">
+                    <h3 class="fw-bold" style="color:var(--dark);">15+</h3>
+                    <small class="text-muted text-uppercase fw-bold">Barbers</small>
+                </div>
+                <div class="col-4 text-center">
+                    <h3 class="fw-bold" style="color:var(--dark);">10k+</h3>
+                    <small class="text-muted text-uppercase fw-bold">Clients</small>
+                </div>
+            </div>
+            <a asp-controller="Branches" asp-action="Index" class="btn mt-4 fw-bold px-4" style="background:var(--dark); color:white; border-radius:8px;">Our Branches</a>
+            <a asp-controller="Appointments" asp-action="Create" class="btn mt-4 ms-2 fw-bold px-4" style="background:var(--gold); color:black; border-radius:8px;">Book Now</a>
+        </div>
+        <div class="col-lg-6">
+            <div class="p-4 rounded shadow-sm" style="background:var(--dark); color:white; border-radius:12px !important;">
+                <h4 class="fw-bold"><i class="bi bi-scissors me-2" style="color:var(--gold);"></i> Our Mission</h4>
+                <p class="text-white-50 small">To provide exceptional grooming experiences while preserving the craft of barbering. Every cut is a statement.</p>
+                <hr style="border-color: #333;" />
+                <h6 class="fw-bold mt-3" style="color:var(--gold);">Why Choose Us?</h6>
+                <ul class="list-unstyled small mt-2">
+                    <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--gold);"></i> Master Barbers & Precision Cuts</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--gold);"></i> Premium Products & Tools</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--gold);"></i> Clean, Luxury Environment</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--gold);"></i> Online Booking & Products Shop</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

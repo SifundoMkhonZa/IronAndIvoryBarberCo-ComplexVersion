@@ -1,0 +1,82 @@
+@model IronAndIvoryCo.Models.Product
+@{
+    ViewData["Title"] = "Add Product";
+}
+
+<div class="page-hero">
+    <div class="container">
+        <h1>ADD NEW PRODUCT</h1>
+        <div class="gold-line"></div>
+        <p>Add premium grooming product to your inventory</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="form-card" style="background:white; border-radius:16px; padding:35px; box-shadow:0 15px 40px rgba(0,0,0,0.08); border:1px solid #eee;">
+                <form asp-action="Create" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <label asp-for="ProductName" class="fw-bold small">PRODUCT NAME</label>
+                            <input asp-for="ProductName" class="form-control" placeholder="e.g. Beard Oil Premium" style="border-radius:8px; padding:10px 14px;" />
+                            <span asp-validation-for="ProductName" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Brand" class="fw-bold small">BRAND</label>
+                            <input asp-for="Brand" class="form-control" value="Iron & Ivory Co" style="border-radius:8px; padding:10px 14px;" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label asp-for="Price" class="fw-bold small">PRICE (R)</label>
+                            <div class="input-group">
+                                <span class="input-group-text">R</span>
+                                <input asp-for="Price" class="form-control" />
+                            </div>
+                            <span asp-validation-for="Price" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="StockQuantity" class="fw-bold small">STOCK QUANTITY</label>
+                            <input asp-for="StockQuantity" class="form-control" type="number" />
+                            <span asp-validation-for="StockQuantity" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Category" class="fw-bold small">CATEGORY</label>
+                            <select asp-for="Category" class="form-select" style="border-radius:8px; padding:10px 14px;">
+                                <option value="">-- Select Category --</option>
+                                <option>Beard</option>
+                                <option>Hair</option>
+                                <option>Tools</option>
+                                <option>Gift Set</option>
+                                <option>Shave</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="BranchId" class="fw-bold small">BRANCH</label>
+                            <select asp-for="BranchId" class="form-select" asp-items="ViewBag.BranchId" style="border-radius:8px; padding:10px 14px;"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="ImageFile" class="fw-bold small">PRODUCT IMAGE</label>
+                            <input asp-for="ImageFile" type="file" class="form-control" accept="image/*" style="border-radius:8px; padding:10px 14px;" />
+                            <span asp-validation-for="ImageFile" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12 mt-4 d-flex gap-2">
+                            <button type="submit" class="btn btn-gold px-4 py-2 fw-bold"><i class="bi bi-plus-lg"></i> Create Product</button>
+                            <a asp-action="Index" class="btn btn-dark-custom px-4 py-2">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

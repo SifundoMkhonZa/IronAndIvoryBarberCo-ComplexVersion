@@ -1,0 +1,43 @@
+@model IronAndIvoryCo.Models.Receptionist
+@{
+    ViewData["Title"] = "Delete Receptionist";
+}
+
+<div class="page-hero" style="background:linear-gradient(135deg,#1a0000,#111);">
+    <div class="container text-center">
+        <h1 style="color:#ff4444;">REMOVE RECEPTIONIST?</h1>
+        <div class="gold-line mx-auto" style="background:#ff4444;"></div>
+        <p>This action cannot be undone</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <div class="ivory-card p-0 overflow-hidden border border-danger" style="border-width:2px!important;">
+                <div class="bg-danger text-white p-4 text-center">
+                    <i class="bi bi-exclamation-triangle fs-1"></i>
+                    <h4 class="fw-bold mt-2 mb-0">@Model.Name</h4>
+                    <small>@Model.Branch?.BranchName • Desk @Model.DeskNumber • @Model.Shift</small>
+                </div>
+                <div class="p-4">
+                    <div class="bg-light rounded-3 p-3 small mb-4">
+                        <div class="d-flex justify-content-between py-1"><span class="text-muted">Email</span><strong>@Model.Email</strong></div>
+                        <div class="d-flex justify-content-between py-1"><span class="text-muted">Phone</span><strong>@Model.Phone</strong></div>
+                        <div class="d-flex justify-content-between py-1"><span class="text-muted">Role</span><span class="badge bg-dark">@Model.Role</span></div>
+                        <div class="d-flex justify-content-between py-1"><span class="text-muted">Since</span><strong>@Model.CreatedDate.ToString("dd MMM yyyy")</strong></div>
+                    </div>
+                    
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-danger flex-grow-1 py-3 fw-bold"><i class="bi bi-trash"></i> YES, REMOVE</button>
+                            <a asp-action="Index" class="btn btn-dark-custom px-4 py-3">Cancel</a>
+                        </div>
+                    </form>
+                    <p class="text-center text-muted small mt-3 mb-0">Receptionist will no longer manage appointments</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

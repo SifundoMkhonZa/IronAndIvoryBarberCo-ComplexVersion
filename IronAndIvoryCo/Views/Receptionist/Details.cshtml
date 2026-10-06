@@ -1,0 +1,39 @@
+@model IronAndIvoryCo.Models.Receptionist
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="page-hero" style="background:#111; padding:50px 0; text-align:center; color:white;">
+    <div class="container">
+        <h1 style="font-weight:800; letter-spacing:2px;">@Model.Name.ToUpper()</h1>
+        <div class="gold-line" style="width:60px; height:4px; background:#D4AF37; margin:15px auto;"></div>
+        <p class="text-white-50 mb-0">@Model.Branch?.BranchName • @Model.Shift • Desk @Model.DeskNumber</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row g-4 justify-content-center">
+        <div class="col-lg-4">
+            <div class="ivory-card p-4 text-center shadow-sm" style="border-radius:16px; background:white;">
+                <div class="mx-auto mb-3 d-flex align-items-center justify-content-center" style="width:100px;height:100px;border-radius:50%;background:#111;color:#D4AF37;font-weight:900;font-size:2.5rem">@Model.Name.Substring(0,1)</div>
+                <h4 class="fw-bold">@Model.Name</h4>
+                <span class="badge bg-warning text-dark px-3">@Model.Role</span>
+                <div class="mt-4 text-start small">
+                    <div class="d-flex justify-content-between py-2 border-bottom"><span class="text-muted"><i class="bi bi-envelope"></i> Email</span><strong>@Model.Email</strong></div>
+                    <div class="d-flex justify-content-between py-2 border-bottom"><span class="text-muted"><i class="bi bi-telephone"></i> Phone</span><strong>@Model.Phone</strong></div>
+                    <div class="d-flex justify-content-between py-2 border-bottom"><span class="text-muted"><i class="bi bi-building"></i> Branch</span><strong>@Model.Branch?.BranchName</strong></div>
+                    <div class="d-flex justify-content-between py-2 border-bottom"><span class="text-muted"><i class="bi bi-clock"></i> Shift</span><strong>@Model.Shift</strong></div>
+                    <div class="d-flex justify-content-between py-2 border-bottom"><span class="text-muted"><i class="bi bi-geo"></i> Desk</span><strong>@Model.DeskNumber</strong></div>
+                    <div class="d-flex justify-content-between py-2"><span class="text-muted"><i class="bi bi-calendar"></i> Joined</span><strong>@Model.CreatedDate.ToString("dd MMM yyyy")</strong></div>
+                </div>
+                <div class="d-flex gap-2 mt-4">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-gold flex-grow-1 fw-bold" style="background:#FFC107; color:#111; font-weight:800; border-radius:10px; padding:10px; text-decoration:none;"><i class="bi bi-pencil"></i> Edit</a>
+                    }
+                    <a asp-action="Index" class="btn btn-dark-custom flex-grow-1" style="background:#111; color:white; border-radius:10px; padding:10px; text-decoration:none;">Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

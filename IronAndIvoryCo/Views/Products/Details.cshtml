@@ -1,0 +1,77 @@
+@model IronAndIvoryCo.Models.Product
+@{
+    ViewData["Title"] = Model.ProductName;
+}
+
+<div class="banner-black" style="background:#111;padding:50px 0;text-align:center;color:white;">
+    <h1 style="font-weight:800; letter-spacing:2px;">@Model.ProductName.ToUpper()</h1>
+    <p class="text-white-50 mb-0">@Model.Brand • @Model.Category</p>
+</div>
+
+<div class="container py-5">
+    <div class="row g-5">
+        <!-- IMAGE -->
+        <div class="col-lg-6">
+            <div class="card-form p-2 shadow-sm" style="border-radius:14px; background:white;">
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="@Model.ImageUrl" class="w-100" style="height:500px; object-fit:cover; border-radius:12px" />
+                }
+                else
+                {
+                    <div class="d-flex align-items-center justify-content-center bg-light" style="height:500px; border-radius:12px">
+                        <i class="bi bi-image" style="font-size:4rem; color:#ccc"></i>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- DETAILS -->
+        <div class="col-lg-6">
+            <div class="d-flex gap-2 mb-3">
+                <span class="badge-gold position-static" style="background:#FFC107; color:#111; font-weight:800; padding:6px 12px; border-radius:8px;">@Model.Category</span>
+                @if (Model.StockQuantity <= 5)
+                {
+                    <span class="badge bg-danger rounded-pill px-3 py-2">LOW STOCK: @Model.StockQuantity</span>
+                }
+                else
+                {
+                    <span class="badge bg-success rounded-pill px-3 py-2">IN STOCK: @Model.StockQuantity</span>
+                }
+            </div>
+
+            <h2 class="fw-bold" style="font-weight:800">@Model.ProductName</h2>
+            <p class="text-muted fw-bold text-uppercase small" style="letter-spacing:1px">@Model.Brand</p>
+            <h1 class="my-4" style="font-weight:800">R @Model.Price.ToString("F2")</h1>
+
+            <div class="card-form py-3 mb-4 shadow-sm" style="padding:20px; border-radius:14px; background:white;">
+                <div class="row g-3">
+                    <div class="col-6"><small class="text-muted d-block">BRAND</small><strong>@Model.Brand</strong></div>
+                    <div class="col-6"><small class="text-muted d-block">CATEGORY</small><strong>@Model.Category</strong></div>
+                    <div class="col-6"><small class="text-muted d-block">STOCK</small><strong>@Model.StockQuantity units</strong></div>
+                    <div class="col-6"><small class="text-muted d-block">BRANCH</small><strong><i class="bi bi-geo-alt"></i> @Model.Branch?.Address</strong></div>
+                </div>
+            </div>
+
+            <!-- WORKING ADD TO CART -->
+            <form asp-controller="Sales" asp-action="AddToCart" method="post" class="d-flex gap-2">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="productId" value="@Model.ProductId" />
+                <input type="number" name="quantity" value="1" min="1" max="@Model.StockQuantity" class="form-control" style="width:90px; border-radius:8px; font-weight:700; text-align:center;" />
+                <button type="submit" class="btn-create-gold flex-grow-1 py-3 fw-bold" style="background:#FFC107; color:#111; font-weight:800; border-radius:10px; font-size:1rem; border:none;">
+                    <i class="bi bi-bag"></i> ADD TO CART
+                </button>
+                <a asp-action="Index" class="btn btn-dark px-4 d-flex align-items-center" style="border-radius:8px"><i class="bi bi-arrow-left"></i></a>
+            </form>
+
+            @if (User.IsInRole("Admin"))
+            {
+                <hr class="my-4" />
+                <div class="d-flex gap-2">
+                    <a asp-action="Edit" asp-route-id="@Model.ProductId" class="btn btn-outline-dark w-50" style="border-radius:8px;"><i class="bi bi-pencil"></i> Edit</a>
+                    <a asp-action="Delete" asp-route-id="@Model.ProductId" class="btn btn-outline-danger w-50" style="border-radius:8px;"><i class="bi bi-trash"></i> Delete</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

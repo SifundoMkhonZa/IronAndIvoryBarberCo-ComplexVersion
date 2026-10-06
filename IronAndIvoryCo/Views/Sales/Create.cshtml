@@ -1,0 +1,37 @@
+@model IronAndIvoryCo.Models.Sale
+@{
+    ViewData["Title"] = "Create Sale";
+}
+<div class="banner-black">
+    <h1>NEW SALE</h1>
+    <p>RECORD A TRANSACTION</p>
+</div>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card-form">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="mb-3">
+                        <label asp-for="TotalAmount" class="form-label fw-bold small">TOTAL AMOUNT (R) *</label>
+                        <input asp-for="TotalAmount" class="form-control" type="number" step="0.01" placeholder="e.g. 250.00" />
+                        <span asp-validation-for="TotalAmount" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="CustomerId" class="form-label fw-bold small">CUSTOMER *</label>
+                        <select asp-for="CustomerId" class="form-select" asp-items="ViewBag.CustomerId"><option value="">-- Select Customer --</option></select>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="BranchId" class="form-label fw-bold small">BRANCH *</label>
+                        <select asp-for="BranchId" class="form-select" asp-items="ViewBag.BranchId"><option value="">-- Select Branch --</option></select>
+                    </div>
+                    <div class="d-flex gap-2 mt-4">
+                        <button type="submit" class="btn-create-gold flex-grow-1">CREATE SALE</button>
+                        <a asp-action="Index" class="btn-book flex-grow-1 text-center">Back</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts { @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} }

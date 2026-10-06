@@ -1,0 +1,64 @@
+@model IronAndIvoryCo.Models.Appointment
+@{
+    ViewData["Title"] = "Appointment Details";
+}
+
+<div class="page-hero" style="background:#111; padding:50px 0; text-align:center; color:white;">
+    <div class="container">
+        <h1 style="font-weight:800; letter-spacing:2px;">APPOINTMENT #@Model.AppointmentId</h1>
+        <div class="gold-line" style="width:60px; height:4px; background:#D4AF37; margin:15px auto;"></div>
+        <p class="text-white-50 mb-0">@Model.Date.ToString("dddd, dd MMMM yyyy") at @Model.Time.ToString(@"hh\:mm") • <span class="badge bg-warning text-dark">@Model.AppointmentStatus</span></p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row g-4 justify-content-center">
+        <div class="col-lg-5">
+            <div class="ivory-card p-4 text-center shadow-sm" style="border-radius:16px; background:white;">
+                <div class="rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width:80px;height:80px;background:#111;color:#FFC107;font-weight:800;font-size:1.5rem;">
+                    <i class="bi bi-scissors"></i>
+                </div>
+                <h4 class="fw-bold" style="font-weight:800">@Model.Service?.Name</h4>
+                <p class="text-muted small">@Model.Service?.Description</p>
+                <h3 class="fw-bold" style="color:#D4AF37;">R @Model.Service?.Price</h3>
+
+                <hr/>
+                <div class="text-start small">
+                    <div class="d-flex justify-content-between py-2 border-bottom"><span class="text-muted">Date</span><strong>@Model.Date.ToString("dd MMM yyyy")</strong></div>
+                    <div class="d-flex justify-content-between py-2 border-bottom"><span class="text-muted">Time</span><strong>@Model.Time.ToString(@"hh\:mm")</strong></div>
+                    <div class="d-flex justify-content-between py-2 border-bottom"><span class="text-muted">Barber</span><strong>@Model.Barber?.Name (@Model.Barber?.Speciality)</strong></div>
+                    <div class="d-flex justify-content-between py-2 border-bottom"><span class="text-muted">Branch</span><strong>@Model.Branch?.Address</strong></div>
+                    <div class="d-flex justify-content-between py-2"><span class="text-muted">Status</span><span class="badge bg-dark">@Model.AppointmentStatus</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="ivory-card p-4 shadow-sm" style="border-radius:16px; background:white;">
+                <h6 class="fw-bold"><i class="bi bi-person"></i> CUSTOMER</h6>
+                <div class="mt-3">
+                    <strong>@Model.Customer?.Name</strong><br/>
+                    <small class="text-muted">@Model.Customer?.Email</small><br/>
+                    <small class="text-muted">@Model.Customer?.Phone</small>
+                </div>
+                <hr/>
+                <h6 class="fw-bold"><i class="bi bi-chat-left-text"></i> NOTE</h6>
+                <p class="small text-muted">@(string.IsNullOrEmpty(Model.Note) ? "No notes added." : Model.Note)</p>
+                <hr/>
+                <small class="text-muted">Booked by: @Model.Receptionist?.Name</small>
+            </div>
+
+            <div class="mt-3 d-flex gap-2">
+                @if (User.IsInRole("Admin") || User.IsInRole("Receptionist") || User.Identity?.Name == Model.Customer?.Email)
+                {
+                    <a asp-action="Edit" asp-route-id="@Model.AppointmentId" class="btn btn-gold flex-grow-1 fw-bold" style="background:#FFC107; color:#111; font-weight:800; border-radius:10px; padding:10px; text-decoration:none;"><i class="bi bi-pencil"></i> Edit</a>
+                }
+                <a asp-action="Index" class="btn btn-dark-custom flex-grow-1" style="background:#111; color:white; border-radius:10px; padding:10px; text-decoration:none; text-align:center;">Back</a>
+            </div>
+            @if (User.IsInRole("Admin") || User.IsInRole("Receptionist"))
+            {
+                <a asp-action="Delete" asp-route-id="@Model.AppointmentId" class="btn btn-outline-danger w-100 mt-2" style="border-radius:10px;"><i class="bi bi-trash"></i> Cancel Appointment</a>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+@model IronAndIvoryCo.Models.Review
+@{
+    ViewData["Title"] = "Review Details";
+}
+<div style="background:#111;padding:60px 0;text-align:center;color:white;">
+    <h1 style="font-weight:800;letter-spacing:2px;">REVIEW #@Model.ReviewId.ToString("D4")</h1>
+    <div style="color:#FFC107;font-weight:bold;font-size:0.9rem;">@Model.ReviewDate.ToString("dd MMMM yyyy")</div>
+</div>
+
+<div class="container py-5 d-flex justify-content-center">
+    <div class="card shadow-lg p-4" style="max-width:550px;width:100%;border-radius:16px;border:none;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold mb-0">@Model.Customer?.Name</h5>
+            <span class="badge bg-warning text-dark px-3 py-2 fw-bold" style="font-size:0.85rem;">@Model.Rating ★ / 5</span>
+        </div>
+
+        <div class="p-3 mb-3" style="background:#f8f9fa;border-radius:10px;">
+            <em style="font-size:1.1rem;">"@Model.Comment"</em>
+        </div>
+
+        <div class="row small mb-1">
+            <div class="col-3 fw-bold text-muted">BARBER</div>
+            <div class="col-9 fw-bold">@Model.Barber?.Name</div>
+        </div>
+        <div class="row small mb-1">
+            <div class="col-3 fw-bold text-muted">DATE</div>
+            <div class="col-9">@Model.ReviewDate.ToString("dd MMM yyyy HH:mm")</div>
+        </div>
+        <div class="row small mb-4">
+            <div class="col-3 fw-bold text-muted">EMAIL</div>
+            <div class="col-9">@Model.Customer?.Email</div>
+        </div>
+
+        <div class="d-flex gap-2">
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-action="Edit" asp-route-id="@Model.ReviewId" class="btn btn-warning fw-bold flex-fill py-2" style="border-radius:8px;">Edit</a>
+            }
+            <a asp-action="Index" class="btn btn-dark fw-bold flex-fill py-2" style="border-radius:8px;">Back to List</a>
+        </div>
+    </div>
+</div>

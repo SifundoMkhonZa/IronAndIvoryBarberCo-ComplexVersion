@@ -1,0 +1,51 @@
+@model IronAndIvoryCo.Models.Payment
+@{
+    ViewData["Title"] = "Delete Payment";
+}
+
+<div class="page-hero" style="background:#2a0a0a;">
+    <div class="container">
+        <h1>VOID PAYMENT</h1>
+        <div class="gold-line"></div>
+        <p class="text-danger">Financial records — proceed with caution</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="ivory-card text-center">
+                <div class="ivory-body">
+                    <div class="mx-auto mb-3 rounded-circle bg-danger text-white d-flex align-items-center justify-content-center" style="width:70px;height:70px;">
+                        <i class="bi bi-credit-card-2-back fs-2"></i>
+                    </div>
+                    <h4 class="fw-bold" style="font-weight:800">Delete R @Model.Amount.ToString("F2")?</h4>
+                    <p class="text-muted small">@Model.PaymentDate.ToString("dd MMM yyyy HH:mm") • @Model.paymentMethod • @Model.PaymentStatus</p>
+
+                    <div class="alert alert-danger text-start d-flex gap-2 mt-3">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        <div class="small">
+                            <strong>Warning: Financial data</strong><br/>
+                            Deleting this payment will affect revenue reports. Appointment #@Model.AppointmentId may show as unpaid.
+                        </div>
+                    </div>
+
+                    <div class="bg-light rounded-3 p-3 small text-start mb-4">
+                        <div class="d-flex justify-content-between py-1"><span class="text-muted">Method</span><strong>@Model.paymentMethod</strong></div>
+                        <div class="d-flex justify-content-between py-1"><span class="text-muted">Status</span><strong>@Model.PaymentStatus</strong></div>
+                        <div class="d-flex justify-content-between py-1"><span class="text-muted">Sale ID</span><strong>@(Model.SaleId?.ToString() ?? "—")</strong></div>
+                        <div class="d-flex justify-content-between py-1"><span class="text-muted">Appointment ID</span><strong>@(Model.AppointmentId?.ToString() ?? "—")</strong></div>
+                    </div>
+
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="PaymentId" />
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-danger flex-grow-1 fw-bold py-2"><i class="bi bi-trash"></i> Void Payment</button>
+                            <a asp-action="Index" class="btn btn-dark-custom flex-grow-1 py-2">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

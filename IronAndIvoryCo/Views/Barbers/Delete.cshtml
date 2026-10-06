@@ -1,0 +1,52 @@
+@model IronAndIvoryCo.Models.Barber
+@{
+    ViewData["Title"] = "Delete Barber";
+}
+
+<div class="page-hero" style="background:#2a0a0a;">
+    <div class="container">
+        <h1>DELETE BARBER</h1>
+        <div class="gold-line"></div>
+        <p class="text-danger">This action cannot be undone</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="ivory-card">
+                <div class="p-4 text-center border-bottom">
+                    <div class="mx-auto mb-3" style="width:90px; height:90px;">
+                        <div class="w-100 h-100 rounded-circle d-flex align-items-center justify-content-center" style="background:#1E2126; color:#FFC107; font-weight:800; font-size:2rem;">
+                            @(Model.Name?.Substring(0,1).ToUpper() ?? "B")
+                        </div>
+                    </div>
+                    <h4 class="fw-bold" style="font-weight:800">@Model.Name</h4>
+                    <p class="text-muted small mb-1">@Model.Role • @Model.Speciality</p>
+                    <small class="text-muted"><i class="bi bi-geo-alt"></i> @Model.Branch?.Address</small>
+                </div>
+
+                <div class="ivory-body">
+                    <div class="alert alert-danger d-flex align-items-center gap-2">
+                        <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+                        <div>
+                            <strong>Are you sure?</strong><br/>
+                            <small>You are about to delete <b>@Model.Name</b>. All their @Model.Appointments?.Count() appointments and schedules will be affected.</small>
+                        </div>
+                    </div>
+
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-danger flex-grow-1 py-2 fw-bold"><i class="bi bi-trash"></i> Yes, Delete Barber</button>
+                            <a asp-action="Index" class="btn btn-dark-custom px-4 py-2">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <a asp-action="Index" class="text-muted small text-decoration-none"><i class="bi bi-arrow-left"></i> Back to Barbers</a>
+            </div>
+        </div>
+    </div>
+</div>

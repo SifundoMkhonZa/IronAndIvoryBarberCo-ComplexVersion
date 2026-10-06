@@ -1,0 +1,86 @@
+@model IronAndIvoryCo.Models.Receptionist
+@{
+    ViewData["Title"] = "Add Receptionist";
+}
+
+<div class="page-hero" style="background:#111;">
+    <div class="container">
+        <h1>NEW RECEPTIONIST</h1>
+        <div class="gold-line"></div>
+        <p>Front desk of Iron & Ivory Co.</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="form-card" style="background:white; border-radius:20px; padding:40px; box-shadow:0 20px 50px rgba(0,0,0,0.08); border:1px solid #eee;">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <h6 class="fw-bold mb-3" style="letter-spacing:1px;"><i class="bi bi-person-badge"></i> PERSONAL INFO</h6>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="Name" class="fw-bold small">FULL NAME *</label>
+                            <input asp-for="Name" class="form-control" placeholder="e.g. Thandi Nkosi" />
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Email" class="fw-bold small">EMAIL *</label>
+                            <input asp-for="Email" class="form-control" type="email" placeholder="reception@ironandivory.co.za" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Phone" class="fw-bold small">PHONE *</label>
+                            <input asp-for="Phone" class="form-control" placeholder="0XX XXX XXXX" />
+                            <span asp-validation-for="Phone" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Role" class="fw-bold small">ROLE</label>
+                            <input asp-for="Role" class="form-control" value="Receptionist" />
+                            <span asp-validation-for="Role" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <hr class="my-4"/>
+
+                    <h6 class="fw-bold mb-3" style="letter-spacing:1px;"><i class="bi bi-building"></i> WORK ASSIGNMENT</h6>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label asp-for="Shift" class="fw-bold small">SHIFT *</label>
+                            <select asp-for="Shift" class="form-select">
+                                <option>Morning (08:00-14:00)</option>
+                                <option>Afternoon (14:00-20:00)</option>
+                                <option>Full Day</option>
+                            </select>
+                            <span asp-validation-for="Shift" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="DeskNumber" class="fw-bold small">DESK NO *</label>
+                            <input asp-for="DeskNumber" class="form-control" placeholder="Desk 1" />
+                            <span asp-validation-for="DeskNumber" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="BranchId" class="fw-bold small">BRANCH *</label>
+                            <select asp-for="BranchId" class="form-select" asp-items="ViewBag.BranchId"></select>
+                            <span asp-validation-for="BranchId" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="AdminId" class="fw-bold small">REPORTS TO (ADMIN)</label>
+                            <select asp-for="AdminId" class="form-select" asp-items="ViewBag.AdminId"><option value="">-- Select Admin --</option></select>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-gold flex-grow-1 py-3 fw-bold"><i class="bi bi-person-plus"></i> ADD RECEPTIONIST</button>
+                        <a asp-action="Index" class="btn btn-dark-custom px-4 py-3">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

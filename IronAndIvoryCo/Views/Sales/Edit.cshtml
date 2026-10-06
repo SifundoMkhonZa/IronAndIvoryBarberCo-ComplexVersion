@@ -1,0 +1,21 @@
+@model IronAndIvoryCo.Models.Sale
+@{
+    ViewData["Title"] = "Edit Sale";
+}
+<div class="banner-black"><h1>EDIT SALE</h1><p>SALE #@Model.SaleId</p></div>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card-form">
+                <form asp-action="Edit">
+                    <input type="hidden" asp-for="SaleId" />
+                    <div class="mb-3"><label asp-for="TotalAmount" class="form-label fw-bold small">TOTAL AMOUNT</label><input asp-for="TotalAmount" class="form-control" /></div>
+                    <div class="mb-3"><label asp-for="CustomerId" class="form-label fw-bold small">CUSTOMER</label><select asp-for="CustomerId" class="form-select" asp-items="ViewBag.CustomerId"></select></div>
+                    <div class="mb-3"><label asp-for="BranchId" class="form-label fw-bold small">BRANCH</label><select asp-for="BranchId" class="form-select" asp-items="ViewBag.BranchId"></select></div>
+                    <div class="d-flex gap-2 mt-4"><button type="submit" class="btn-create-gold flex-grow-1">SAVE CHANGES</button><a asp-action="Index" class="btn-book flex-grow-1 text-center">Back</a></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts { @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} }

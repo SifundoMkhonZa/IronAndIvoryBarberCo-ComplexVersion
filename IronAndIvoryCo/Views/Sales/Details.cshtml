@@ -1,0 +1,54 @@
+@model IronAndIvoryCo.Models.Sale
+@{
+    ViewData["Title"] = "Sale Details";
+    var payment = Model.Payments?.FirstOrDefault();
+    var isAdmin = User.IsInRole("Admin");
+}
+<div class="banner-black" style="background:#111;padding:50px 0;text-align:center;color:white;">
+    <h1>SALE #@Model.SaleId.ToString("D5")</h1>
+    <p class="text-white-50 mb-0">@Model.SaleDate.ToString("dd MMMM yyyy HH:mm")</p>
+</div>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card-service p-4 mb-4 shadow-sm" style="border-radius:14px; background:white;">
+                <h3 class="fw-bold">R @Model.TotalAmount.ToString("N2")</h3>
+                <hr/>
+                <dl class="row small">
+                    <dt class="col-4 text-muted">CUSTOMER</dt><dd class="col-8 fw-bold">@Model.Customer?.Email</dd>
+                    <dt class="col-4 text-muted">BRANCH</dt><dd class="col-8">@Model.Branch?.Address</dd>
+                    <dt class="col-4 text-muted">DATE</dt><dd class="col-8">@Model.SaleDate.ToString("dd MMM yyyy")</dd>
+                    <dt class="col-4 text-muted">STATUS</dt><dd class="col-8">@Model.Status</dd>
+                    <dt class="col-4 text-muted">PAYMENT</dt>
+                    <dd class="col-8">
+                        @if(payment != null){
+                            <span>@payment.PaymentStatus - @payment.paymentMethod - R @payment.Amount.ToString("N2") on @payment.PaymentDate.ToString("dd MMM")</span>
+                        } else {
+                            <span class="text-danger fw-bold">No Payment Yet</span>
+                        }
+                    </dd>
+                </dl>
+
+                @if(Model.ProductSales != null && Model.ProductSales.Any()){
+                <h6 class="fw-bold mt-4">Products</h6>
+                <table class="table table-sm">
+                    <thead><tr><th>Product</th><th>Qty</th><th>Price</th></tr></thead>
+                    <tbody>
+                    @foreach(var ps in Model.ProductSales){
+                        <tr><td>@ps.Product?.ProductName</td><td>@ps.Quantity</td><td>R @ps.UnitPrice.ToString("N2")</td></tr>
+                    }
+                    </tbody>
+                </table>
+                }
+
+                <div class="d-flex gap-2 mt-4">
+                    @if (isAdmin)
+                    {
+                        <a asp-action="Edit" asp-route-id="@Model.SaleId" class="btn-create-gold flex-grow-1 text-center" style="background:#FFC107;color:#111;font-weight:800;padding:10px;border-radius:10px;text-decoration:none;">Edit</a>
+                    }
+                    <a asp-action="Index" class="btn-book flex-grow-1 text-center" style="background:#111;color:white;padding:10px;border-radius:10px;text-decoration:none;">Back to Sales</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

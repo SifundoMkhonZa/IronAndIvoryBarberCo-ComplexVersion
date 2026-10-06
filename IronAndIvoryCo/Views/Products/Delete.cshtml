@@ -1,0 +1,61 @@
+@model IronAndIvoryCo.Models.Product
+@{
+    ViewData["Title"] = "Delete Product";
+}
+
+<div class="page-hero" style="background:#2a0a0a;">
+    <div class="container">
+        <h1>DELETE PRODUCT</h1>
+        <div class="gold-line"></div>
+        <p class="text-danger">This action cannot be undone</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="ivory-card">
+                <div class="p-4 text-center border-bottom bg-light">
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" width="120" height="120" style="object-fit:cover; border-radius:14px; border:3px solid #FFC107" />
+                    }
+                    <h4 class="fw-bold mt-3" style="font-weight:800">@Model.ProductName</h4>
+                    <p class="text-muted small text-uppercase fw-bold">@Model.Brand • @Model.Category</p>
+                    <h5 class="fw-bold">R @Model.Price</h5>
+                    <span class="badge @(Model.StockQuantity <= 5 ? "bg-danger" : "bg-dark") rounded-pill">Stock: @Model.StockQuantity</span>
+                </div>
+
+                <div class="ivory-body">
+                    <div class="alert alert-danger d-flex align-items-center gap-2">
+                        <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+                        <div>
+                            <strong>Are you sure?</strong><br />
+                            <small>You are about to delete <b>@Model.ProductName</b> from branch <b>@Model.Branch?.Address</b>. This will remove it from all listings.</small>
+                        </div>
+                    </div>
+
+                    <div class="bg-light p-3 rounded-3 mb-4">
+                        <div class="row small">
+                            <div class="col-6 mb-2"><span class="text-muted">Product:</span> <strong>@Model.ProductName</strong></div>
+                            <div class="col-6 mb-2"><span class="text-muted">Brand:</span> <strong>@Model.Brand</strong></div>
+                            <div class="col-6"><span class="text-muted">Price:</span> <strong>R @Model.Price</strong></div>
+                            <div class="col-6"><span class="text-muted">Category:</span> <strong>@Model.Category</strong></div>
+                        </div>
+                    </div>
+
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="ProductId" />
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-danger flex-grow-1 py-2 fw-bold"><i class="bi bi-trash"></i> Yes, Delete Permanently</button>
+                            <a asp-action="Index" class="btn btn-dark-custom px-4 py-2">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <a asp-action="Index" class="text-muted small text-decoration-none"><i class="bi bi-arrow-left"></i> Back to Products</a>
+            </div>
+        </div>
+    </div>
+</div>

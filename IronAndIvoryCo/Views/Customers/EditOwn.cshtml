@@ -1,0 +1,41 @@
+﻿@model IronAndIvoryCo.Models.Customer
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow border-0">
+                <div class="card-body p-4">
+                    <h3 class="fw-bold">Edit My Profile</h3>
+                    <hr/>
+                    <form asp-action="EditOwn">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label fw-bold"></label>
+                            <input asp-for="Name" class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Phone" class="form-label fw-bold"></label>
+                            <input asp-for="Phone" class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="DateOfBirth" class="form-label fw-bold"></label>
+                            <input asp-for="DateOfBirth" type="date" class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Gender" class="form-label fw-bold"></label>
+                            <select asp-for="Gender" asp-items="Html.GetEnumSelectList<IronAndIvoryCo.Models.Enums.Gender>()" class="form-select"></select>
+                        </div>
+                        <button type="submit" class="btn btn-dark w-100" style="background:#1E2126;">Save Changes</button>
+                        <a asp-action="MyProfile" class="btn btn-outline-secondary w-100 mt-2">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,61 @@
+@model IronAndIvoryCo.Models.Appointment
+@{
+    ViewData["Title"] = "Cancel Appointment";
+}
+
+<div class="page-hero" style="background:#2a0a0a;">
+    <div class="container">
+        <h1>CANCEL APPOINTMENT</h1>
+        <div class="gold-line"></div>
+        <p class="text-danger">This will remove the booking</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="ivory-card">
+                <div class="p-4 border-bottom">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="rounded-circle bg-dark text-warning d-flex align-items-center justify-content-center" style="width:60px;height:60px;font-weight:800;">
+                            <i class="bi bi-calendar-x fs-4"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0" style="font-weight:800">@Model.Date.ToString("ddd, dd MMM yyyy") at @Model.Time.ToString(@"hh\:mm")</h5>
+                            <small class="text-muted">With @Model.Barber?.Name • @Model.Service?.Name</small>
+                        </div>
+                    </div>
+
+                    <div class="bg-light rounded-3 p-3 small">
+                        <div class="d-flex justify-content-between py-1"><span class="text-muted">Customer</span><strong>@Model.Customer?.Name (@Model.Customer?.Email)</strong></div>
+                        <div class="d-flex justify-content-between py-1"><span class="text-muted">Barber</span><strong>@Model.Barber?.Name</strong></div>
+                        <div class="d-flex justify-content-between py-1"><span class="text-muted">Branch</span><strong>@Model.Branch?.Address</strong></div>
+                        <div class="d-flex justify-content-between py-1"><span class="text-muted">Status</span><span class="badge bg-warning text-dark">@Model.AppointmentStatus</span></div>
+                        @if (!string.IsNullOrEmpty(Model.Note))
+                        {
+                            <div class="mt-2 pt-2 border-top"><span class="text-muted">Note:</span> @Model.Note</div>
+                        }
+                    </div>
+                </div>
+
+                <div class="ivory-body">
+                    <div class="alert alert-danger d-flex gap-2">
+                        <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+                        <div>
+                            <strong>Are you sure you want to cancel?</strong><br/>
+                            <small>This appointment for <b>@Model.Customer?.Name</b> on @Model.Date.ToString("dd MMM") will be permanently deleted.</small>
+                        </div>
+                    </div>
+
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="AppointmentId" />
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-danger flex-grow-1 fw-bold py-2"><i class="bi bi-trash"></i> Yes, Cancel Appointment</button>
+                            <a asp-action="Index" class="btn btn-dark-custom px-4 py-2">Keep It</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

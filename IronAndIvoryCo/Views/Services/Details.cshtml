@@ -1,0 +1,64 @@
+@model IronAndIvoryCo.Models.Service
+@{
+    ViewData["Title"] = "Service Details";
+}
+
+<div class="banner-black" style="padding: 40px 20px;">
+    <h1>SERVICE DETAILS</h1>
+    <p>@Model.ServiceCategory • @Model.DurationInMinutes MIN</p>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="card-form p-0 overflow-hidden" style="display:flex; flex-direction:row; flex-wrap:wrap;">
+
+                <!-- Left Image -->
+                <div class="col-md-5 p-0" style="position:relative; min-height:400px; background:#f5f5f5;">
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" style="width:100%; height:100%; object-fit:cover; min-height:400px;" />
+                    }
+                    else
+                    {
+                        <div class="d-flex align-items-center justify-content-center h-100 text-muted">No Image</div>
+                    }
+                    <span class="badge-gold" style="position:absolute; top:20px; left:20px; font-size:0.85rem; padding:8px 14px;">@Model.DurationInMinutes MIN</span>
+                </div>
+
+                <!-- Right Content -->
+                <div class="col-md-7 p-4">
+                    <small class="text-muted text-uppercase fw-bold" style="letter-spacing:2px; color:#FFC107 !important;">@Model.ServiceCategory</small>
+                    <h2 class="fw-bold text-uppercase mt-2 mb-3" style="letter-spacing:1px;">@Model.Name</h2>
+
+                    <div class="d-flex align-items-center gap-3 mb-4">
+                        <span class="price" style="font-size:1.8rem;">R @Model.Price.ToString("F2")</span>
+                        <span class="text-muted">•</span>
+                        <span class="fw-bold"><i class="bi bi-clock"></i> @Model.DurationInMinutes min</span>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 class="fw-bold text-uppercase small" style="letter-spacing:1px;">Description</h6>
+                        <p class="text-muted" style="line-height:1.7;">@Model.Description</p>
+                    </div>
+
+                    <div class="p-3 rounded mb-4" style="background:#FFF8E1; border-left:4px solid #FFC107;">
+                        <h6 class="fw-bold small text-uppercase mb-1">Branch</h6>
+                        <span class="text-dark"><i class="bi bi-geo-alt"></i> @Model.Branch?.Address</span>
+                    </div>
+
+                    <div class="d-flex gap-2 mt-4">
+                        <a asp-controller="Appointments" asp-action="Create" asp-route-serviceId="@Model.ServiceId" class="btn-book flex-grow-1 text-center py-2" style="text-decoration:none;">Book Now - R @Model.Price.ToString("F2")</a>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@Model.ServiceId" class="btn btn-outline-dark fw-bold py-2 px-4" style="border-radius:8px;">Edit</a>
+                        }
+                    </div>
+                    <div class="text-center mt-3">
+                        <a asp-action="Index" class="text-muted text-decoration-none small">← Back to Services & Pricing</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,85 @@
+@model IEnumerable<IronAndIvoryCo.Models.Payment>
+@{
+    ViewData["Title"] = "Payments";
+    var total = Model.Sum(p => p.Amount);
+    var today = Model.Where(p => p.PaymentDate.Date == DateTime.Today).Sum(p => p.Amount);
+}
+
+<div class="page-hero" style="background:#111;">
+    <div class="container d-flex justify-content-between align-items-end flex-wrap">
+        <div>
+            <h1>FINANCE LEDGER</h1>
+            <div class="gold-line"></div>
+            <p>@Model.Count() transactions • R @total.ToString("F2") total revenue</p>
+        </div>
+        <a asp-action="Create" class="btn btn-gold px-4 py-2 fw-bold mb-2"><i class="bi bi-plus-lg"></i> Record Payment</a>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="ivory-card p-3 d-flex justify-content-between align-items-center" style="background:#111;color:white;">
+                <div><small class="text-warning">TOTAL REVENUE</small><h4 class="fw-bold m-0 text-white">R @total.ToString("F2")</h4></div><i class="bi bi-cash-stack fs-2 text-warning"></i>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="ivory-card p-3 d-flex justify-content-between align-items-center">
+                <div><small class="text-muted">TODAY</small><h4 class="fw-bold m-0">R @today.ToString("F2")</h4></div><i class="bi bi-graph-up-arrow fs-2 text-success"></i>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="ivory-card p-3 d-flex justify-content-between align-items-center">
+                <div><small class="text-muted">PENDING</small><h4 class="fw-bold m-0">@Model.Count(p => p.PaymentStatus.ToString() != "Completed")</h4></div><i class="bi bi-hourglass-split fs-2 text-warning"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="ivory-card p-0 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead style="background:#111;color:white;">
+                    <tr class="small text-uppercase">
+                        <th class="ps-4">ID / Date</th>
+                        <th>Amount</th>
+                        <th>Method</th>
+                        <th>Status</th>
+                        <th>Linked</th>
+                        <th class="text-end pe-4">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach(var item in Model.OrderByDescending(p => p.PaymentDate))
+                {
+                    <tr>
+                        <td class="ps-4">
+                            <strong style="font-size:0.85rem">#@item.PaymentId.ToString().PadLeft(5,'0')</strong><br/>
+                            <small class="text-muted">@item.PaymentDate.ToString("dd MMM yy HH:mm")</small>
+                        </td>
+                        <td><strong>R @item.Amount.ToString("F2")</strong></td>
+                        <td><span class="badge bg-light text-dark border"><i class="bi bi-credit-card"></i> @item.paymentMethod</span></td>
+                        <td>
+                            @if(item.PaymentStatus.ToString() == "Completed")
+                            { <span class="badge bg-success rounded-pill">Completed</span> }
+                            else if(item.PaymentStatus.ToString() == "Pending")
+                            { <span class="badge bg-warning text-dark rounded-pill">Pending</span> }
+                            else { <span class="badge bg-danger rounded-pill">@item.PaymentStatus</span> }
+                        </td>
+                        <td class="small">
+                            Appt: #@item.AppointmentId<br/>
+                            <span class="text-muted">Sale: @(item.SaleId?.ToString() ?? "—")</span>
+                        </td>
+                        <td class="text-end pe-4">
+                            <div class="btn-group btn-group-sm">
+                                <a asp-action="Details" asp-route-id="@item.PaymentId" class="btn btn-dark"><i class="bi bi-eye"></i></a>
+                                <a asp-action="Edit" asp-route-id="@item.PaymentId" class="btn btn-outline-dark"><i class="bi bi-pencil"></i></a>
+                                <a asp-action="Delete" asp-route-id="@item.PaymentId" class="btn btn-outline-danger"><i class="bi bi-trash"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+﻿@model IronAndIvoryCo.Models.Customer
+@{ ViewData["Title"] = "My Profile"; }
+<div class="container py-5">
+    <h2 class="fw-bold">My Profile</h2>
+    <div class="card mt-4 shadow-sm p-4">
+        <p><strong>Name:</strong> @Model.Name</p>
+        <p><strong>Email:</strong> @Model.Email</p>
+        <p><strong>Phone:</strong> @Model.Phone</p>
+        <p><strong>Loyalty Points:</strong> @Model.LoyaltyPoints</p>
+        <a asp-action="EditOwn" asp-route-id="@Model.Id" class="btn btn-warning fw-bold">Edit My Profile</a>
+        <a asp-controller="Appointments" asp-action="Index" class="btn btn-dark ms-2">My Bookings</a>
+    </div>
+</div>

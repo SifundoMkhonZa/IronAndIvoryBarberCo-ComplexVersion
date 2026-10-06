@@ -1,0 +1,66 @@
+@model IEnumerable<IronAndIvoryCo.Models.Schedule>
+@{
+    ViewData["Title"] = "Schedules";
+    var isAdmin = User.IsInRole("Admin") || User.IsInRole("Receptionist");
+    var isBarber = User.IsInRole("Barber");
+}
+<div class="banner-black" style="background:#111;padding:50px 0;text-align:center;color:white;">
+    <h1 class="fw-bold" style="letter-spacing:2px;">@(isBarber ? "MY SCHEDULE" : "BARBER SCHEDULES")</h1>
+    <p class="text-white-50 mb-0">@Model.Count() SHIFTS • @Model.Count(s => s.IsAvailable) AVAILABLE</p>
+</div>
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="fw-bold mb-0">@(isBarber ? "My Weekly Roster" : "Weekly Roster")</h5>
+        
+        @* HIDE ADD SHIFT FROM BARBER *@
+        @if (isAdmin)
+        {
+            <a asp-action="Create" class="btn-create-gold" style="background:#FFC107;color:#111;font-weight:800;padding:10px 24px;border-radius:10px;text-decoration:none;">+ Add Shift</a>
+        }
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning fw-bold">No schedule assigned yet. Contact admin.</div>
+    }
+
+    <div class="row g-4">
+        @foreach (var item in Model.OrderBy(s => s.DayOfWeek))
+        {
+            <div class="col-md-4">
+                <div class="card-service p-4 h-100 shadow-sm" style="border-left:4px solid @(item.IsAvailable ? "#FFC107" : "#ddd"); border-radius:14px; background:white;">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-bold text-uppercase">@item.DayOfWeek</span>
+                        @if (item.IsAvailable)
+                        {
+                            <span class="badge bg-warning text-dark">AVAILABLE</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">OFF</span>
+                        }
+                    </div>
+
+                    <h6 class="mb-1"><i class="bi bi-clock"></i> @item.StartTime.ToString(@"hh\:mm") - @item.EndTime.ToString(@"hh\:mm")</h6>
+
+                    @if (isAdmin)
+                    {
+                        <small class="text-muted">Barber: @item.Barber?.Name</small>
+                    }
+
+                    <div class="d-flex gap-2 mt-3">
+                        <a asp-action="Details" asp-route-id="@item.ScheduleId" class="btn btn-dark btn-sm px-3" style="border-radius:8px;">View</a>
+
+                        @* HIDE EDIT/DELETE FROM BARBER *@
+                        @if (isAdmin)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.ScheduleId" class="btn btn-outline-dark btn-sm" style="border-radius:8px;">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.ScheduleId" class="btn btn-outline-danger btn-sm" style="border-radius:8px;">Delete</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

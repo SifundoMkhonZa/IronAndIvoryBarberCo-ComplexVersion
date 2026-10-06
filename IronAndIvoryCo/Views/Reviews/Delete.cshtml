@@ -1,0 +1,29 @@
+@model IronAndIvoryCo.Models.Review
+@{
+    ViewData["Title"] = "Delete Review";
+}
+<div class="banner-black" style="background:#1a0000;">
+    <h1>DELETE REVIEW</h1>
+    <p>THIS ACTION CANNOT BE UNDONE</p>
+</div>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <div class="card-form text-center border border-danger">
+                <h5 class="fw-bold">Are you sure?</h5>
+                <div class="my-3">
+                    <span class="badge-gold position-static">@Model.Rating ★</span>
+                    <p class="fst-italic mt-2">"@Model.Comment"</p>
+                    <small class="text-muted">@Model.Customer?.Name • Barber: @Model.Barber?.Name</small>
+                </div>
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="ReviewId" />
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-danger flex-grow-1 fw-bold py-2" style="border-radius:8px;">YES, DELETE</button>
+                        <a asp-action="Index" class="btn-book flex-grow-1 text-center py-2">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

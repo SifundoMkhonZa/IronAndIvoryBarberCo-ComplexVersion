@@ -1,0 +1,72 @@
+@model IEnumerable<IronAndIvoryCo.Models.Barber>
+@{
+    ViewData["Title"] = "Our Barbers";
+}
+
+<div class="page-hero">
+    <div class="container">
+        <h1>MEET THE CRAFTSMEN</h1>
+        <div class="gold-line"></div>
+        <p>Master barbers with years of precision, style and dedication</p>
+    </div>
+</div>
+
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <h6 class="m-0 fw-bold">@Model.Count() Expert Barbers</h6>
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="Create" class="btn btn-dark-custom"><i class="bi bi-plus-lg"></i> Add Barber</a>
+        }
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row g-4">
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-4 col-md-6">
+                <div class="ivory-card text-center">
+                    <div class="p-4">
+                        <div class="mx-auto mb-3 position-relative" style="width:110px; height:110px;">
+                            <div class="w-100 h-100 rounded-circle d-flex align-items-center justify-content-center" style="background:#1E2126; color:#FFC107; font-weight:800; font-size:2rem;">
+                                @(string.IsNullOrEmpty(item.Name) ? "B" : item.Name.Substring(0,1).ToUpper())
+                            </div>
+                            <span class="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle" style="width:22px; height:22px;"></span>
+                        </div>
+
+                        <h5 class="fw-bold mb-1" style="font-weight:800">@item.Name</h5>
+                        <div class="mb-2">
+                            <span class="ivory-badge position-static" style="font-size:0.7rem;">@item.Speciality</span>
+                        </div>
+                        
+                        <small class="text-muted d-block mb-1"><i class="bi bi-geo-alt"></i> @item.Branch?.Address</small>
+                        <small class="text-muted d-block mb-3"><i class="bi bi-envelope"></i> @item.Email</small>
+
+                        <div class="bg-light rounded-3 p-2 mb-3 d-flex justify-content-around small">
+                            <div><strong>@(item.Appointments?.Count() ?? 0)</strong><br/><span class="text-muted">Cuts</span></div>
+                            <div><strong>@(item.Reviews?.Count() ?? 0)</strong><br/><span class="text-muted">Reviews</span></div>
+                            <div><strong>4.9</strong><br/><span class="text-muted">Rating</span></div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-gold w-50 btn-sm fw-bold">VIEW PROFILE</a>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-dark-custom w-50 btn-sm">Edit</a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Appointments" asp-action="Create" asp-route-barberId="@item.Id" class="btn btn-dark-custom w-50 btn-sm">Book</a>
+                            }
+                        </div>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="text-danger small text-decoration-none mt-2 d-inline-block">Delete</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

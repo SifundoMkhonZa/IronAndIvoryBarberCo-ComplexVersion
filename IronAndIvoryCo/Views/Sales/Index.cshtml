@@ -1,0 +1,56 @@
+@model IEnumerable<IronAndIvoryCo.Models.Sale>
+@{
+    ViewData["Title"] = "Sales";
+}
+<div class="banner-black">
+    <h1>SALES RECORDS</h1>
+    <p>@Model.Count() TRANSACTIONS • R @Model.Sum(s=>s.TotalAmount).ToString("N2") TOTAL</p>
+</div>
+<div class="container py-5">
+    @if (User.IsInRole("Admin") || User.IsInRole("Receptionist"))
+    {
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h5 class="fw-bold">All Sales</h5>
+            <a asp-action="Create" class="btn-create-gold">+ New Sale</a>
+        </div>
+        <div class="row g-4">
+        @foreach(var item in Model.OrderByDescending(s=>s.SaleDate)){
+            var pay = item.Payments?.FirstOrDefault();
+            <div class="col-md-4">
+                <div class="card-service p-4">
+                    <div class="d-flex justify-content-between">
+                        <span class="badge-gold position-static">R @item.TotalAmount.ToString("N2")</span>
+                        <small class="text-muted">@item.SaleDate.ToString("dd MMM yyyy")</small>
+                    </div>
+                    <h6 class="fw-bold mt-3 mb-1">@item.Customer?.Email</h6>
+                    <small class="text-muted">@item.Branch?.Address</small>
+                    <div class="mt-2">
+                        @if(pay != null){
+                            <span class="badge bg-success">@pay.PaymentStatus - @pay.paymentMethod</span>
+                        } else {
+                            <span class="badge bg-warning text-dark">Unpaid / Cart</span>
+                        }
+                    </div>
+                    <div class="d-flex gap-2 mt-3">
+                        <a asp-action="Details" asp-route-id="@item.SaleId" class="btn-book btn-sm">View</a>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.SaleId" class="btn btn-outline-dark btn-sm" style="border-radius:8px;">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.SaleId" class="btn btn-outline-danger btn-sm" style="border-radius:8px;">Delete</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger text-center py-5">
+            <i class="bi bi-shield-lock fs-1"></i>
+            <h4 class="mt-3">Access Denied</h4>
+            <p>Sales records are restricted to Admin and Reception staff only.</p>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-dark mt-2">Go Home</a>
+        </div>
+    }
+</div>

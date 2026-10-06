@@ -1,0 +1,51 @@
+@model IronAndIvoryCo.Models.Review
+@{
+    ViewData["Title"] = "Review Barber";
+    var appointment = ViewBag.Appointment as IronAndIvoryCo.Models.Appointment;
+}
+<div class="container py-5" style="max-width:600px;">
+    <h2 class="fw-bold">REVIEW YOUR CUT</h2>
+    <div class="gold-line" style="width:60px;height:4px;background:#FFC107;margin:10px 0;"></div>
+
+    @if (appointment != null)
+    {
+        <div class="card p-3 mb-4" style="border-left:5px solid #FFC107;background:#111;color:white;">
+            <p class="mb-1"><b>Barber:</b> @ViewBag.BarberName</p>
+            <p class="mb-1"><b>Appointment:</b> #@appointment.AppointmentId - @appointment.Date.ToString("dd MMM yyyy") at @appointment.Time</p>
+            <p class="mb-0"><b>Service:</b> @appointment.Service?.Name</p>
+        </div>
+    }
+
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        
+        <!-- THESE 3 ARE REQUIRED - FIXES FK ERROR -->
+        <input type="hidden" asp-for="AppointmentId" />
+        <input type="hidden" asp-for="BarberId" />
+        <input type="hidden" asp-for="CustomerId" />
+
+        <div class="mb-3">
+            <label asp-for="Rating" class="form-label fw-bold">Rating (1-5)</label>
+            <select asp-for="Rating" class="form-control form-control-lg">
+                <option value="5">★★★★★ (5) - Excellent</option>
+                <option value="4">★★★★ (4) - Good</option>
+                <option value="3">★★★ (3) - Okay</option>
+                <option value="2">★★ (2) - Poor</option>
+                <option value="1">★ (1) - Bad</option>
+            </select>
+            <span asp-validation-for="Rating" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Comment" class="form-label fw-bold">Comment</label>
+            <textarea asp-for="Comment" class="form-control" rows="4" placeholder="How was your cut with @ViewBag.BarberName?"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-warning fw-bold px-5 py-2">Submit Review for @ViewBag.BarberName</button>
+        <a asp-controller="Appointments" asp-action="Index" class="btn btn-outline-dark ms-2">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
