@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {
@@ -124,7 +124,7 @@ using (var scope = app.Services.CreateScope())
         await SeedUser("reception@ironandivory.co.za", "Recep@123", "Receptionist");
         await SeedUser("customer@ironandivory.co.za", "Customer@123", "Customer");
 
-        // 5. BARBER + SCHEDULE SEED - FIXED FOR YOUR MODEL
+        // 5. BARBER + SCHEDULE SEED
         if (mainBranch != null)
         {
             if (!context.Barbers.Any())
@@ -148,7 +148,6 @@ using (var scope = app.Services.CreateScope())
                 var barbers = context.Barbers.ToList();
                 foreach (var barber in barbers)
                 {
-                    // Monday to Saturday
                     var days = new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
                     foreach (var dayName in days)
                     {
