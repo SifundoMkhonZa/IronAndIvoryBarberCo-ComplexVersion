@@ -38,7 +38,7 @@ using (var scope = app.Services.CreateScope())
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 
-        context.Database.Migrate();
+        context.Database.EnsureCreated();
 
         // 1. BRANCH
         Branch? mainBranch = null;
